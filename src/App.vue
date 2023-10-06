@@ -4,8 +4,9 @@ import NavBarVue from './components/NavBar.vue'
 </script>
 
 <template>
-    <NavBarVue/>
+    <NavBarVue></NavBarVue>
  
+        <router-view></router-view> 
 </template>
 
 <style scoped> 
