@@ -1,37 +1,104 @@
 <template>
   <div id="container">
     <h1>Bucket Generator</h1>
-    <input type="text" class="bucket-name" aria-label="bucket name" />
+    <input
+      type="text"
+      class="bucket-name"
+      aria-label="bucket name"
+      :value="bucketName"
+    />
 
-    <form id="form" @submit.prevent="something">
+    <form id="form" @submit.prevent="generateName">
       <div>
         <label for="num">Number of Chars</label>
         <div>
-          <input type="range" min="4" max="60" id="range" aria-label="range" />
-          <input type="number" min="4" max="60" id="num" aria-label="number" />
+          <input
+            type="range"
+            min="4"
+            max="60"
+            id="range"
+            :value="rangeValue"
+            @change="rangeInput"
+            aria-label="range"
+          />
+          <input
+            type="number"
+            min="4"
+            max="60"
+            id="num"
+            :value="inputValue"
+            @change="rangeInput"
+            aria-label="number"
+          />
         </div>
       </div>
-
       <div class="option">
         <label for="upper">Include Uppercase</label>
-        <input type="checkbox" id="upper" disabled />
+        <input type="checkbox"  id="upper" disabled />
       </div>
       <div class="option">
         <label for="lower">Include LowerCase</label>
-        <input type="checkbox" id="lower" />
+        <input type="checkbox"  id="lower"  :value="checked"  @change="e => checked = e.target.checked"/>
       </div>
-
-      <button type="submit" @submit.prevent="something">Generate</button>
-    </form> 
+      <button type="submit">Generate</button>
+    </form>
   </div>
-</template>
+</template> 
+
+<script setup>
+import { ref } from "vue";
+
+const rangeValue = ref(20);
+const inputValue = ref(20);
+let bucketName = ref("");
+let checked = ref(false)
 
 
-<script setup> 
+//atach the range with the numeric input
+function rangeInput(e) {
+  rangeValue.value = e.target.value;
+  inputValue.value = parseInt(e.target.value);
+}
+
+const lower_case_code = ArrayFromLowToHigh(97, 122); //ascii
+const upper_case_code = ArrayFromLowToHigh(65, 90); // the range of upper case characters in decimal
+const number_char_code = ArrayFromLowToHigh(48, 57); // numbers range
+
+//return an array based on the low and high values of the specified decimal range
+function ArrayFromLowToHigh(low, high) {
+  const array = [];
+
+  for (let i = low; i <= high; i++) {
+    array.push(i);
+  }
+  return array;
+}
+
+//main function
+function generateName() {
+  const charAmount = rangeValue.value;
+  const includeUpper = false ? upper.checked : null;
+  const includeLower = checked.value ? checked.value : null;
+
+  let charCode = number_char_code; // declare an array charCode = number_char_code array ,  default are numbers
+  if (includeLower) charCode = charCode.concat(lower_case_code);
+  if (includeUpper) charCode = charCode.concat(upper_case_code); // if checked add the upper case characters
+console.log(includeLower)
+  const name = []; // empty array
+
+  for (let i = 0; i < charAmount; i++) {
+    //characterAmount the value of the range or numeric input
+
+    const character = charCode[Math.floor(Math.random() * charCode.length)]; // random number times the length of the array charCode
+
+    name.push(String.fromCharCode(character)); // add the character converted to the equivalent ascii code to the name array
+  }
+  //set the value
+  bucketName.value = name.join(""); // convert array to string
+}
 </script>
 
 <style scoped>
-
 #container {
   background-color: var(--ui_blue);
   padding: 0 3em 2em;
