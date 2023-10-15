@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 
-import About from '../views/About.vue'
+import html from '../views/HTMLText.vue'
 import Bucket from '../views/Bucket.vue'
 import IPs from '../views/IPs.vue'
 
@@ -12,9 +12,9 @@ const routes =[
         component:Bucket
     },
     {
-        path:'/About', 
-        name :'About',
-        component:About
+        path:'/html', 
+        name :'html',
+        component:html
     
     }
     

@@ -6,8 +6,8 @@
       class="bucket-name"
       aria-label="bucket name"
       :value="bucketName"
+      @focus="e => e.target.select()"
     />
-
     <form id="form" @submit.prevent="generateName">
       <div>
         <label for="num">Number of Chars</label>
@@ -34,11 +34,16 @@
       </div>
       <div class="option">
         <label for="upper">Include Uppercase</label>
-        <input type="checkbox"  id="upper" disabled />
+        <input type="checkbox" id="upper" disabled />
       </div>
       <div class="option">
         <label for="lower">Include LowerCase</label>
-        <input type="checkbox"  id="lower"  :value="checked"  @change="e => checked = e.target.checked"/>
+        <input
+          type="checkbox"
+          id="lower"
+          :value="checked"
+          @change="(e) => (checked = e.target.checked)"
+        />
       </div>
       <button type="submit">Generate</button>
     </form>
@@ -51,13 +56,19 @@ import { ref } from "vue";
 const rangeValue = ref(20);
 const inputValue = ref(20);
 let bucketName = ref("");
-let checked = ref(false)
-
+let checked = ref(false);
 
 //atach the range with the numeric input
 function rangeInput(e) {
   rangeValue.value = e.target.value;
   inputValue.value = parseInt(e.target.value);
+
+  if (e.target.value >= 40)
+    document.querySelector(".bucket-name").style.width = "380px";
+  else if (e.target.value >= 30)
+    document.querySelector(".bucket-name").style.width = "340px";
+  else if (e.target.value >= 20)
+    document.querySelector(".bucket-name").style.width = "280px";
 }
 
 const lower_case_code = ArrayFromLowToHigh(97, 122); //ascii
@@ -83,7 +94,7 @@ function generateName() {
   let charCode = number_char_code; // declare an array charCode = number_char_code array ,  default are numbers
   if (includeLower) charCode = charCode.concat(lower_case_code);
   if (includeUpper) charCode = charCode.concat(upper_case_code); // if checked add the upper case characters
-console.log(includeLower)
+  console.log(includeLower);
   const name = []; // empty array
 
   for (let i = 0; i < charAmount; i++) {
@@ -101,7 +112,7 @@ console.log(includeLower)
 <style scoped>
 #container {
   background-color: var(--ui_blue);
-  padding: 0 3em 2em;
+  padding: 0 2rem 2rem;
   border-radius: 1.5rem;
   border: 2px solid var(--ui_blue);
   display: flex;
@@ -182,10 +193,10 @@ label {
 button {
   width: 100%;
   cursor: pointer;
-  margin: 10px 0;
   background-color: var(--ui_light);
   color: var(--ui_blue);
   padding: 10px;
+  margin: 10px 0 0;
   font-size: 1em;
   border-radius: 5em;
   letter-spacing: 1px;

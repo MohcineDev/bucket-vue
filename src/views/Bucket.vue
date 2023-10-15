@@ -1,11 +1,12 @@
 <template>
   <section class="middle">
     <div class="containerad">
-      <img src="./imgs/img.jpg" alt="ad" id="img1" />
+      <img src="https://api.lorem.space/image/book?w=250" alt="ad" id="img1" />
     </div>
+    
     <Bucket />
     <div class="containerad">
-      <img src="./imgs/img0.jpg" alt="ad" id="img2" />
+      <img src="https://via.assets.so/watch.png?id=1&q=95&w=250" alt="ad" id="img2" />
     </div>
   </section>
 </template>
