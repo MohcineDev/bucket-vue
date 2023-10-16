@@ -16,7 +16,6 @@
       </svg>
     </router-link>
     <div class="links">
-          
       <router-link to="/IPs">IPS</router-link>
       <router-link to="/HTML">HTML</router-link>
     </div>
@@ -28,20 +27,30 @@ import { PiPaintBucketBold } from "react-icons/pi";
 </script>
 
 <style>
-nav{
-    display: flex;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: auto;
-    width: 90%;
-    align-items: center;
+nav {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: auto;
+  width: 90%;
+  align-items: center;
+  box-shadow: 0 0 5px #aaa;
+  border-radius: 9px;
+  padding: 2px 1rem;
+  position: sticky;
+  top: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 20;
 }
-.logo svg{
-    width: 35px;
-    height: 35px;
+.logo {
+  display: flex;
 }
-.links a{
-    margin-left: 10px;
-    padding: 10px;
+.logo svg {
+  width: 35px;
+  height: 35px;
+}
+.links a {
+  margin-left: 10px;
+  padding: 10px;
 }
 </style>
