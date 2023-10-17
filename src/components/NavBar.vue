@@ -3,7 +3,7 @@
     <router-link to="/" class="logo">
       <svg
         stroke="currentColor"
-        fill="currentColor"
+        fill="#198fe7"
         stroke-width="0"
         viewBox="0 0 256 256"
         height="1em"
@@ -18,12 +18,22 @@
     <div class="links">
       <router-link to="/IPs">IPS</router-link>
       <router-link to="/HTML">HTML</router-link>
+      <div>
+        <span>Extensions</span>
+        <div class="extensions">
+          <a href="">Pause</a>
+          <a href="">Delete</a>
+          <a href="">Resume</a>
+          <a href="">Repo</a>
+          <a href="">Get IPs</a>
+          <a href="">Get&nbsp;Domains</a>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
 
 <script setup>
-import { PiPaintBucketBold } from "react-icons/pi";
 </script>
 
 <style>
@@ -49,8 +59,43 @@ nav {
   width: 35px;
   height: 35px;
 }
-.links a {
+.links{
+  display: flex;
+  align-self: center;
+}
+.links>a,
+.links > div {
   margin-left: 10px;
   padding: 10px;
+  color: rgb(62, 153, 244);
+}
+.links > div {
+  position: relative;
+}
+.extensions{
+  position: absolute;
+	background: #fff;
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+	box-shadow: 0 0 5px #aaa;
+	border-radius: 7px;
+  left: 0;
+  top: 160%;
+  opacity: 0;
+  visibility: hidden;
+  transition: top 1s, opacity 0.5s;
+}
+.extensions a{
+  padding: 5px;
+
+}
+.extensions a:hover{
+  background-color: #eee;
+}
+.links > div:hover .extensions{
+  top: 100%;
+  opacity: 1;
+  visibility: visible;
 }
 </style>
