@@ -18,7 +18,7 @@
     <div class="links">
       <router-link to="/IPs">IPS</router-link>
       <router-link to="/HTML">HTML</router-link>
-      <div>
+      <div class="ext_container">
         <span>Extensions</span>
         <div class="extensions">
           <a href="">Pause</a>
@@ -29,18 +29,30 @@
           <a href="">Get&nbsp;Domains</a>
         </div>
       </div>
+      <router-link to="verification">Verification</router-link>
+      <div class="theme">
+       
+<svg @click="addClass" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+</svg>
+
+    </div> 
     </div>
+
   </nav>
 </template>
 
 <script setup>
+
+function addClass(){
+  document.querySelector('body').classList.toggle("dark")
+}
 </script>
 
 <style>
 nav {
   display: flex;
   justify-content: space-between;
-  max-width: 1200px;
   margin: auto;
   width: 90%;
   align-items: center;
@@ -49,7 +61,7 @@ nav {
   padding: 2px 1rem;
   position: sticky;
   top: 15px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 1);
   z-index: 20;
 }
 .logo {
@@ -64,7 +76,7 @@ nav {
   align-self: center;
 }
 .links>a,
-.links > div {
+.links > .ext_container {
   margin-left: 10px;
   padding: 10px;
   color: rgb(62, 153, 244);
@@ -93,9 +105,20 @@ nav {
 .extensions a:hover{
   background-color: #eee;
 }
-.links > div:hover .extensions{
+.links > .ext_container:hover .extensions{
   top: 100%;
   opacity: 1;
   visibility: visible;
+}
+.theme{
+  display: flex;
+  align-items: center;
+  border-left: 2px solid var(--ui_blue);
+  padding-left: 10px;
+}
+.theme svg{
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 </style>

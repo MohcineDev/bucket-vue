@@ -185,8 +185,7 @@ function splitIntoFunc(splitNbr) {
 //////---------------
 </script>
 
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+<style scoped>
 
 .wrapper {
   width: 90%;

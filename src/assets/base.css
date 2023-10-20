@@ -1,6 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+
+
 :root {
   --bg-dark : #262626;
-  --bg-light : ##fefefe;
+  --bg-light : #fefefe;
   --light-blue: lightblue;
   --dark-bg: #101020;
   --ui_blue:#198fe7;
@@ -11,7 +14,7 @@
  
 @media (prefers-color-scheme: dark) {
   :root {
-     
+
   }
 }
 
@@ -32,3 +35,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
 }
+
+body.dark{
+  --bg-dark : #fefefe;
+  --bg-light : #262626;
+}
+ 
