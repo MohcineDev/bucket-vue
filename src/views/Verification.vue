@@ -1,0 +1,168 @@
+<template>
+  <h2>Verification</h2>
+  <div class="container">
+    <div class="textareas">
+      <div id="refresh" @click="emptyTextareas">Refresh</div>
+
+      <div>
+        <textarea
+          id="src"
+          :value="textAreaSrc"
+          @input="(e) => (textAreaSrc = e.target.value)"
+          placeholder="past here / coller ici"
+        ></textarea>
+        <span>{{ spanSrcCount }}</span>
+      </div>
+      <div>
+        <textarea
+          id="result"
+          :value="textAreaResult"
+          @input="(e) => (textAreaResult = e.target.value)"
+          @focus="(e) => e.target.select()"
+          placeholder="result"
+          readonly="true"
+        ></textarea>
+        <span>{{ spanResultCount }}</span>
+      </div>
+    </div>
+
+    <button @click="generateProfiles">Submit</button>
+  </div>
+</template>
+
+<script setup>
+import { ref } from "vue";
+//@focus="(e) => (e.target.select(),  window.navigator.clipboard.writeText =  e.target.value)"
+
+const textAreaSrc = ref("");
+const textAreaResult = ref("");
+const spanSrcCount = ref();
+const spanResultCount = ref();
+//mllkdsokze422 "," dazdaqsdzd@dazdadzdaqszd.com"
+//empty textboxes first
+function generateProfiles() {
+  textAreaResult.value = "";
+
+  let data = textAreaSrc.value.split("\n");
+
+  data.forEach((row) => {
+    if (row.length > 30) {
+      let profileNbr = row.substring(11, row.indexOf('"', 12));
+      let emailAddress = row.substring(
+        row.indexOf('","') + 3,
+        row.indexOf('"', 20)
+      );
+      console.log(data.length);
+
+      let line = `${profileNbr} \t ${emailAddress} \n`;
+
+      textAreaResult.value += line;
+    }
+  });
+  console.log(textAreaSrc);
+  console.log(textAreaSrc.value);
+  spanSrcCount.value = data.length;
+  spanResultCount.value = textAreaResult.value.split("\n").length;
+}
+
+function emptyTextareas() {
+  textAreaSrc.value = "";
+  textAreaResult.value = "";
+  spanSrcCount.value = "";
+  spanResultCount.value = "";
+}
+</script>
+
+<style scoped>
+h2 {
+  text-align: center;
+  font-family: "Permanent Marker", cursive;
+  color: var(--ui_blue);
+  font-size: 2rem;
+  margin: 2rem;
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+}
+.textareas {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.textareas > div {
+  position: relative;
+}
+textarea {
+  height: 500px;
+  width: 500px;
+  font-family: arial;
+  resize: none;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 0 8px #ccc;
+  background-color: #eee;
+  outline: none;
+  padding: 5px;
+}
+textarea:hover {
+  box-shadow: 0 0 8px #aaa;
+}
+button {
+  margin: 1rem auto;
+  display: flex;
+  padding: 15px 3rem;
+  border: none;
+  color: #fff;
+  background-color: #0077ff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 2s;
+}
+
+button:hover {
+  background: #74b0f5;
+}
+
+span {
+  position: absolute;
+  bottom: -15px;
+  left: 15px;
+  font-size: 12px;
+  color: #fff;
+  padding: 0 5px;
+}
+
+#src + span {
+  background-color: #af4343;
+}
+#result + span {
+  background-color: #33c138;
+}
+
+#refresh {
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  cursor: pointer;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media screen and (max-width: 1200px) {
+  textarea {
+    height: 500px;
+    width: 350px;
+  }
+}
+@media screen and (max-width: 992px) {
+  textarea {
+    height: 400px;
+    width: 250px;
+  }
+}
+</style>
