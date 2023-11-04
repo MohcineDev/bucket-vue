@@ -8,7 +8,7 @@
         :value="targetIps"
         @input="(e) => (targetIps = e.target.value)"
         @change="targetIpsChange"
-        placeholder="target ips"
+        placeholder="target ips  / rows to split"
         cols="30"
         rows="10"
       ></textarea>
@@ -18,6 +18,7 @@
       <div>
         <label for="splitInto">Into&nbsp;:&nbsp;</label>
         <input
+        title="split into"
           type="number"
           :value="splitInto"
           id="splitInto"
@@ -28,17 +29,28 @@
       </div>
       <button @click="splitIps" class="split">Split</button>
     </div>
-    <div class="textareas"></div>
+    <div class="textareas">
+      <template v-for="(n, index) in textAreasCount" :key="index">
+          <textarea name="" :id="`list${n}`"></textarea>
+          <span></span>
+      </template>
+    </div>
   </section>
 </template>
 
 <script setup>
 import { ref } from "vue";
+const textAreasCount = ref(0)
 
-const targetIps = ref();
+const targetIps = ref(`192.168.1.1
+192.168.1.0
+192.168.1.2
+192.168.1.3
+192.168.1.10
+255.255.255.255
+172.16.0.1`);
+
 const splitInto = ref(2);
-console.log(targetIps);
-const splitBtn = document.querySelector("button.split");
 let textareas = "";
 
 let list1Textarea = document.querySelector("#list1");
@@ -63,6 +75,9 @@ let list1 = "",
 function splitIps() {
   textareas = document.querySelector(".textareas");
 console.log(splitInto)
+
+///how many text areas to create 0 --> 5
+textAreasCount.value = splitInto.value
   const ips = targetIps.value;
   (list1 = ""), (list2 = ""), (list3 = ""), (list4 = ""), (list5 = "");
   validIps = [];
@@ -81,7 +96,7 @@ console.log(splitInto)
     : (splitInto.value = splitInto.value);
 
   ///create textarea element
-  createTextArea(splitInto.value);
+//  createTextArea(splitInto.value);
 
   //remove empty lines
   ips.split("\n").forEach((item) => {
@@ -228,6 +243,7 @@ textarea {
   box-shadow: 0 0 5px #aaa;
   padding: 5px;
   transition: border 0.3s;
+  background-color: #fefefe;
 }
 
 textarea::placeholder {
