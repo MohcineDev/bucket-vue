@@ -22,11 +22,13 @@ import { ref } from "vue";
 import Bucket from "../components/Bucket.vue";
 
 let src1 = ref();
+
 let src2 = ref();
-let imgnb = Math.floor(Math.random() * 18);
+let imgnb =  Math.floor(Math.random() * 18);  
+console.log(13132)
+src1.value = `https://raw.githubusercontent.com/MohcineDev/bucket/main/imgs/img${imgnb}.webp`;
+src2.value = `https://raw.githubusercontent.com/MohcineDev/bucket/main/imgs/img${imgnb < 17 ? imgnb + 1 : 0}.webp`;
  
-//src1.value = `https://raw.githubusercontent.com/MohcineDev/bucket/main/imgs/img${imgnb}.webp`;
-//src2.value = `https://raw.githubusercontent.com/MohcineDev/bucket/main/imgs/img${imgnb < 17 ? imgnb + 1 : 0}.webp`;
 </script>
 
 <style scoped>

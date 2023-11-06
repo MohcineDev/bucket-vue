@@ -94,7 +94,7 @@ function generateName() {
   let charCode = number_char_code; // declare an array charCode = number_char_code array ,  default are numbers
   if (includeLower) charCode = charCode.concat(lower_case_code);
   if (includeUpper) charCode = charCode.concat(upper_case_code); // if checked add the upper case characters
-  console.log(includeLower);
+  
   const name = []; // empty array
 
   for (let i = 0; i < charAmount; i++) {

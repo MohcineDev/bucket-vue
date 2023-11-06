@@ -1,5 +1,5 @@
 <template>
-  <h2>Verification</h2>
+  <h2>Verificationnnnnnnnnn</h2>
   <div class="container">
     <div class="textareas">
       <div id="refresh" @click="emptyTextareas">Refresh</div>
@@ -61,8 +61,8 @@ function generateProfiles() {
   });
   console.log(textAreaSrc);
   console.log(textAreaSrc.value);
-  spanSrcCount.value = data.length;
-  spanResultCount.value = textAreaResult.value.split("\n").length;
+  spanSrcCount.value = data.length-1;
+  spanResultCount.value = textAreaResult.value.split("\n").length-1;
 }
 
 function emptyTextareas() {
@@ -104,7 +104,7 @@ textarea {
   border-radius: 8px;
   border: none;
   box-shadow: 0 0 8px #ccc;
-  background-color: #eee;
+  background-color: #fefefe;
   outline: none;
   padding: 5px;
 }
