@@ -46,21 +46,18 @@ function generateProfiles() {
   let data = textAreaSrc.value.split("\n");
 
   data.forEach((row) => {
-    if (row.length > 30) {
+    if (row.length > 40) {
       let profileNbr = row.substring(11, row.indexOf('"', 12));
       let emailAddress = row.substring(
         row.indexOf('","') + 3,
         row.indexOf('"', 20)
-      );
-      console.log(data.length);
+      ); 
 
       let line = `${profileNbr} \t ${emailAddress} \n`;
 
       textAreaResult.value += line;
     }
-  });
-  console.log(textAreaSrc);
-  console.log(textAreaSrc.value);
+  }); 
   spanSrcCount.value = data.length-1;
   spanResultCount.value = textAreaResult.value.split("\n").length-1;
 }
