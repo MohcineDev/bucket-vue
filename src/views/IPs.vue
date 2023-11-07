@@ -8,7 +8,7 @@
         :value="targetIps"
         @input="(e) => (targetIps = e.target.value)"
         @change="targetIpsChange"
-        placeholder="target ips  / rows to split"
+        placeholder="target ips | rows to split | rows to count"
         cols="30"
         rows="10"
       ></textarea>
@@ -51,7 +51,7 @@ const targetIps = ref(`192.168.1.1
 let list = ref([[],[],[],[],[]])
 let newlist = ref([[],[],[],[],[]])
 
-const splitInto = ref(4);
+const splitInto = ref(2);
 
 ////update span value when target ips changes
 function targetIpsChange() {
@@ -68,8 +68,11 @@ function splitIps() {
   validIps = [];
 
   if (!targetIps.value) {
-    alert("enter your ips!!");
-    return;
+     if (targetIps.value.trim() == '') {    
+      alert("enter your ips!!");
+      return;
+     }
+
   }
 
   //set the default values min =2, max =5
@@ -90,19 +93,7 @@ function splitIps() {
       validIps.push(item);
     }
   });
-/*
-  if (parseInt(splitInto.value) === 2) {
-    splitIntoFunc(2);
-  }
-  if (parseInt(splitInto.value) === 3) {
-    splitIntoFunc(3);
-  }
-  if (parseInt(splitInto.value) === 4) {
-    splitIntoFunc(4);
-  }
-  if (parseInt(splitInto.value) === 5) {
-    splitIntoFunc(5);
-  }*/
+  
   newSplitIps()
 }
 
@@ -114,22 +105,9 @@ function newSplitIps(){
      list.value[listNum].push(`${ip}\n`)
     listNum+1 === splitInto.value ? listNum = 0 : listNum++
   })
-  console.log("-----------------")
-  console.log(list.value)
 }
- 
-function splitIntoFunc(splitNbr) {
-  let list1=[]
-  let list2=[]
-  let list3=[]
-  let list4=[]
-  let list5=[]
-  /*
   
-  
-  
-  
-  
+  /* 
   25ip  ////  4
 < targetips.length
 
@@ -140,63 +118,7 @@ let listNum = 1
 listNum++
 
 if listNum = spiltvalue ? listNum = 1
-  
-
-  
   */
-  validIps.forEach((element, index) => {
-    if (splitNbr === 2) {
-      if (index % 2 == 0) 
-      {
-        list1.push(element+"\n");
-      } 
-      else list2.push(element+"\n");
-    } 
-    else if (splitNbr === 3) {
-      if (index % 3 == 0) {
-        list1.push(element+"\n");
-
-      } 
-      else if (index % 2 == 0) {
-        list2.push(element+"\n");
-      } 
-      else list3.push(element+"\n");
-    } 
-    else if (splitNbr === 4) {
-      if (index % 4 == 0) {
-        list1.push(element+"\n");
-      } 
-      else if (index % 3 == 0) {
-        list2.push(element+"\n");
-      } 
-      else if (index % 2 == 0) {
-        list3.push(element+"\n");
-      } 
-      else list4.push(element+"\n");
-    } 
-    else if (splitNbr === 5) {
-      if (index % 5 == 0) {
-        list1.push(element+"\n");
-      } 
-      else if (index % 4 == 0) {
-        list2.push(element+"\n");
-      } 
-      else if (index % 3 == 0) {
-        list3.push(element+"\n");
-      } 
-      else if (index % 2 == 0) {
-        list4.push(element+"\n");
-      } 
-      else list5.push(element+"\n");
-    }
-  });
- 
-  list.value = [list1, list2,list3, list4, list5]
-
-  console.log(list.value)
-  newSplitIps()
-}
-//////---------------
 </script>
 
 <style scoped>
@@ -211,14 +133,7 @@ if listNum = spiltvalue ? listNum = 1
   max-width: 1200px;
   margin: 2rem auto 0;
 }
-
-h1 {
-  text-align: center;
-  font-family: "Permanent Marker", cursive;
-  color: var(--ui_blue);
-  font-size: 2rem;
-  margin: 2rem;
-}
+ 
 
 .container .txt_wrapper {
   display: flex;
@@ -345,15 +260,6 @@ div span.displayError {
   background-color: #eee;
   border-radius: 5px;
   margin: 0 5px;
-}
-
-* {
-  font-family: arial;
-  --dark: #101020;
-}
-body {
-  margin: 0;
-  color: #101020;
 }
 
 .ips {
