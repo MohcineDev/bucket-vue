@@ -48,3 +48,8 @@ h1{
   font-size: 2rem;
   margin: 2rem;
 }
+
+
+input{
+  outline: none;
+}
