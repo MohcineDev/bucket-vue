@@ -1,5 +1,5 @@
 <template>
-  <h2>Verification</h2>
+  <h1>Verificationnnnnnnnnn</h1>
   <div class="container">
     <div class="textareas">
       <div id="refresh" @click="emptyTextareas">Refresh</div>
@@ -38,31 +38,27 @@ const textAreaSrc = ref("");
 const textAreaResult = ref("");
 const spanSrcCount = ref();
 const spanResultCount = ref();
-//mllkdsokze422 "," dazdaqsdzd@dazdadzdaqszd.com"
-//empty textboxes first
+
 function generateProfiles() {
   textAreaResult.value = "";
 
   let data = textAreaSrc.value.split("\n");
 
   data.forEach((row) => {
-    if (row.length > 30) {
+    if (row.length > 40) {
       let profileNbr = row.substring(11, row.indexOf('"', 12));
       let emailAddress = row.substring(
         row.indexOf('","') + 3,
         row.indexOf('"', 20)
-      );
-      console.log(data.length);
+      ); 
 
       let line = `${profileNbr} \t ${emailAddress} \n`;
 
       textAreaResult.value += line;
     }
-  });
-  console.log(textAreaSrc);
-  console.log(textAreaSrc.value);
-  spanSrcCount.value = data.length;
-  spanResultCount.value = textAreaResult.value.split("\n").length;
+  }); 
+  spanSrcCount.value = data.length-1;
+  spanResultCount.value = textAreaResult.value.split("\n").length-1;
 }
 
 function emptyTextareas() {
@@ -74,13 +70,6 @@ function emptyTextareas() {
 </script>
 
 <style scoped>
-h2 {
-  text-align: center;
-  font-family: "Permanent Marker", cursive;
-  color: var(--ui_blue);
-  font-size: 2rem;
-  margin: 2rem;
-}
 
 .container {
   width: 90%;
@@ -104,7 +93,7 @@ textarea {
   border-radius: 8px;
   border: none;
   box-shadow: 0 0 8px #ccc;
-  background-color: #eee;
+  background-color: #fefefe;
   outline: none;
   padding: 5px;
 }
