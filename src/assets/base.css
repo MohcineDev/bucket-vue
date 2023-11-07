@@ -39,3 +39,12 @@ body.dark{
   --bg-light : #262626;
 }
  
+
+h1{
+  font-family: "Permanent Marker", cursive;
+  text-align: center;
+  font-family: "Permanent Marker", cursive;
+  color: var(--ui_blue);
+  font-size: 2rem;
+  margin: 2rem;
+}
