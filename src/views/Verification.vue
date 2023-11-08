@@ -61,6 +61,7 @@ function generateProfiles() {
   spanResultCount.value = textAreaResult.value.split("\n").length-1;
 }
 
+///empty the content of textareas and span elements
 function emptyTextareas() {
   textAreaSrc.value = "";
   textAreaResult.value = "";
@@ -99,6 +100,10 @@ textarea {
 }
 textarea:hover {
   box-shadow: 0 0 8px #aaa;
+}
+
+#result{
+  cursor: not-allowed;
 }
 button {
   margin: 1rem auto;
