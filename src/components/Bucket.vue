@@ -105,8 +105,8 @@ function generateName() {
   }
   //set the value
   bucketName.value = name.join(""); // convert array to string
- console.log(name.join('')) 
 }
+generateName()
 </script>
 
 <style scoped>
@@ -140,8 +140,10 @@ function generateName() {
   box-shadow: 0px 0px 10px var(--ui_blue);
 }
 
-h1 {
+#container h1 {
   margin: 2rem 0 1rem;
+  color: #fff;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .bucket-name {
