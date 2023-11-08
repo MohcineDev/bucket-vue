@@ -2,7 +2,7 @@
 
 
 :root {
-  --bg-dark : #1a1a1a;
+  --bg-dark : #101020;
   --bg-light : #fefefe;
   --light-blue: lightblue;
   --dark-bg: #101020;
@@ -36,7 +36,7 @@ body {
 
 body.dark{
   --bg-dark : #fefefe;
-  --bg-light : #262626;
+  --bg-light : #101020;
 }
  
 
