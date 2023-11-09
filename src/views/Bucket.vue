@@ -1,4 +1,5 @@
 <template>
+  <BucketReady />
   <section class="middle">
     <div class="containerad">
       <img
@@ -7,7 +8,6 @@
         id="img1"
       />
     </div>
-
     <Bucket />
     <div class="containerad">
       <img :src="src1" alt="ad" id="img2" />
@@ -15,11 +15,10 @@
   </section>
 </template>
 
-
-
 <script setup>
 import { ref } from "vue";
 import Bucket from "../components/Bucket.vue";
+import BucketReady from "../components/BucketReady.vue";
 
 let src1 = ref();
 
@@ -33,7 +32,6 @@ src2.value = `https://raw.githubusercontent.com/MohcineDev/bucket/main/imgs/img$
 
 <style scoped>
 body {
-  background-color: var(--dark-bg);
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
@@ -72,7 +70,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-items: center;
-  grid-template-rows: 90vh;
+  grid-template-rows: 70vh;
   align-items: center;
 }
 

@@ -2,7 +2,7 @@
 
 
 :root {
-  --bg-dark : #1a1a1a;
+  --bg-dark : #101020;
   --bg-light : #fefefe;
   --light-blue: lightblue;
   --dark-bg: #101020;
@@ -24,7 +24,7 @@
 
 body {
   min-height: 100vh;
-  color: var(--color-text);
+  color: var(--bg-dark);
   background: var(--bg-light);
   transition: color 0.5s, background-color 0.5s; 
   font-family: Arial, Helvetica, sans-serif;
@@ -36,6 +36,20 @@ body {
 
 body.dark{
   --bg-dark : #fefefe;
-  --bg-light : #262626;
+  --bg-light : #101020;
 }
  
+
+h1{
+  font-family: "Permanent Marker", cursive;
+  text-align: center;
+  font-family: "Permanent Marker", cursive;
+  color: var(--ui_blue);
+  font-size: 2rem;
+  margin: 2rem;
+}
+
+
+input{
+  outline: none;
+}

@@ -1,5 +1,5 @@
 <template>
-  <h1>Split Ips</h1>
+  <h1>Split IpSssssss</h1>
   <section class="wrapper ips">
     <div>
       <textarea
@@ -8,11 +8,11 @@
         :value="targetIps"
         @input="(e) => (targetIps = e.target.value)"
         @change="targetIpsChange"
-        placeholder="target ips  / rows to split"
+        placeholder="target ips | rows to split | rows to count"
         cols="30"
         rows="10"
       ></textarea>
-      <span></span>
+      <span>{{ targetIps.split('\n').length }}</span>
     </div>
     <div class="controls">
       <div>
@@ -31,10 +31,8 @@
     </div>
     <div class="textareas">
       <template v-for="(n, index) in textAreasCount" :key="index">
-  {{ console.log(n) }}
-  <textarea  :id="`list${n}`" :value="list[index].toString().replace(/,/g, '')"></textarea>
-  
-        <span></span>
+        <textarea  :id="`list${n}`" :value="list[index].toString().replace(/,/g, '')" readonly @focus="e=> e.target.select()"></textarea>
+        <span>{{ list[index].length }}</span>
       </template>
     </div>
   </section>
@@ -51,10 +49,9 @@ const targetIps = ref(`192.168.1.1
 255.255.255.255
 172.16.0.1`);
 let list = ref([[],[],[],[],[]])
+let newlist = ref([[],[],[],[],[]])
 
 const splitInto = ref(2);
-let textareas = "";
- 
 
 ////update span value when target ips changes
 function targetIpsChange() {
@@ -65,16 +62,17 @@ function targetIpsChange() {
 
 let validIps = [];
 
-function splitIps() {
-  textareas = document.querySelector(".textareas");
-
+function splitIps() {  
   const ips = targetIps.value;
  
   validIps = [];
 
   if (!targetIps.value) {
-    alert("enter your ips!!");
-    return;
+     if (targetIps.value.trim() == '') {    
+      alert("enter your ips!!");
+      return;
+     }
+
   }
 
   //set the default values min =2, max =5
@@ -88,111 +86,39 @@ function splitIps() {
   ///place it here to make sure splitInto is between 2 & 5
   ///how many text areas to create 0 --> 5
   textAreasCount.value = splitInto.value;
-
-
-
-  ///create textarea element
-  //  createTextArea(splitInto.value);
-
+ 
   //remove empty lines
   ips.split("\n").forEach((item) => {
     if (item !== "") {
       validIps.push(item);
     }
   });
-
-  if (parseInt(splitInto.value) === 2) {
-    splitIntoFunc(2);
-  }
-  if (parseInt(splitInto.value) === 3) {
-    splitIntoFunc(3);
-  }
-  if (parseInt(splitInto.value) === 4) {
-    splitIntoFunc(4);
-  }
-  if (parseInt(splitInto.value) === 5) {
-    splitIntoFunc(5);
-  }
-  /*
-  document.querySelectorAll(".textareas span").forEach((elem) => {
-    elem.textContent = elem.previousElementSibling.value.split("\n").length - 1;
-  });*/
+  
+  newSplitIps()
 }
 
-function createTextArea(nbr) {
-  //remove child textareas
-  textareas.querySelectorAll("textarea").length >= 1
-    ? textareas
-        .querySelectorAll("textarea")
-        .forEach((elem) => textareas.removeChild(elem))
-    : null;
-  //remove span elements
-  textareas.querySelectorAll(".textareas span").length >= 1
-    ? textareas
-        .querySelectorAll("span")
-        .forEach((elem) => textareas.removeChild(elem))
-    : null;
+function newSplitIps(){
+  list.value = [[],[],[],[],[]]
 
-  for (let i = 0; i < nbr; i++) {
-    let textArea = document.createElement("textarea");
-    let span = document.createElement("span");
-    textArea.id = `list${i + 1}`;
-
-    textareas.appendChild(textArea);
-    textareas.appendChild(span);
-  }
+  let listNum = 0
+  validIps.forEach( ip => {
+     list.value[listNum].push(`${ip}\n`)
+    listNum+1 === splitInto.value ? listNum = 0 : listNum++
+  })
 }
+  
+  /* 
+  25ip  ////  4
+< targetips.length
 
-//////---------------
-function splitIntoFunc(splitNbr) {
-  console.log('textAreasCount : ', textAreasCount.value)
-  let list1=[]
-let list2=[]
-let list3=[]
-let list4=[]
-let list5=[]
-  validIps.forEach((element, index) => {
-    if (splitNbr === 2) {
-      if (index % 2 == 0) 
-      {
-        list1.push(element+"\n");
-      } 
-      else list2.push(element+"\n");
-    } 
-    else if (splitNbr === 3) {
-      if (index % 3 == 0) {
-        list1.push(element+"\n");
+let listNum = 1
+  i=0   list i + 1  == target[i]  
+  i=1   list i + 1    target [i]
+  i=4  list i + 1  === target(i)
+listNum++
 
-      } 
-      else if (index % 2 == 0) {
-        list2.push(element+"\n");
-      } 
-      else list3.push(element+"\n");
-    } 
-    else if (splitNbr === 4) {
-      if (index % 4 == 0) {
-        list1.push(element+"\n");
-      } else if (index % 3 == 0) {
-        list2 += `${element}\n`;
-      } else if (index % 2 == 0) {
-        list3 += `${element}\n`;
-      } else list4 += `${element}\n`;
-    } else if (splitNbr === 5) {
-      if (index % 5 == 0) {
-        list1 += `${element}\n`;
-      } else if (index % 4 == 0) {
-        list2 += `${element}\n`;
-      } else if (index % 3 == 0) {
-        list3 += `${element}\n`;
-      } else if (index % 2 == 0) {
-        list4 += `${element}\n`;
-      } else list5 += `${element}\n`;
-    }
-  });
- 
-  list.value = [list1, list2,list1, list2, list1]
-}
-//////---------------
+if listNum = spiltvalue ? listNum = 1
+  */
 </script>
 
 <style scoped>
@@ -207,14 +133,7 @@ let list5=[]
   max-width: 1200px;
   margin: 2rem auto 0;
 }
-
-h1 {
-  text-align: center;
-  font-family: "Permanent Marker", cursive;
-  color: var(--ui_blue);
-  font-size: 2rem;
-  margin: 2rem;
-}
+ 
 
 .container .txt_wrapper {
   display: flex;
@@ -343,15 +262,6 @@ div span.displayError {
   margin: 0 5px;
 }
 
-* {
-  font-family: arial;
-  --dark: #101020;
-}
-body {
-  margin: 0;
-  color: #101020;
-}
-
 .ips {
   margin: 2rem auto;
   display: grid;
@@ -379,13 +289,13 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
-}
-
+} 
 .controls div input {
   width: 70%;
   border: 1px solid #000;
   border-radius: 5px;
   text-align: center;
+  outline: none;
 }
 
 button.split {

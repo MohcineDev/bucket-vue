@@ -1,5 +1,5 @@
 <template>
-  <h2>Verificationnnnnnnnnn</h2>
+  <h1>Verificationnnnnnnnnn</h1>
   <div class="container">
     <div class="textareas">
       <div id="refresh" @click="emptyTextareas">Refresh</div>
@@ -38,8 +38,7 @@ const textAreaSrc = ref("");
 const textAreaResult = ref("");
 const spanSrcCount = ref();
 const spanResultCount = ref();
-//mllkdsokze422 "," dazdaqsdzd@dazdadzdaqszd.com"
-//empty textboxes first
+
 function generateProfiles() {
   textAreaResult.value = "";
 
@@ -62,6 +61,7 @@ function generateProfiles() {
   spanResultCount.value = textAreaResult.value.split("\n").length-1;
 }
 
+///empty the content of textareas and span elements
 function emptyTextareas() {
   textAreaSrc.value = "";
   textAreaResult.value = "";
@@ -71,13 +71,6 @@ function emptyTextareas() {
 </script>
 
 <style scoped>
-h2 {
-  text-align: center;
-  font-family: "Permanent Marker", cursive;
-  color: var(--ui_blue);
-  font-size: 2rem;
-  margin: 2rem;
-}
 
 .container {
   width: 90%;
@@ -107,6 +100,10 @@ textarea {
 }
 textarea:hover {
   box-shadow: 0 0 8px #aaa;
+}
+
+#result{
+  cursor: not-allowed;
 }
 button {
   margin: 1rem auto;

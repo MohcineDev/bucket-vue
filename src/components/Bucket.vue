@@ -94,7 +94,6 @@ function generateName() {
   let charCode = number_char_code; // declare an array charCode = number_char_code array ,  default are numbers
   if (includeLower) charCode = charCode.concat(lower_case_code);
   if (includeUpper) charCode = charCode.concat(upper_case_code); // if checked add the upper case characters
-  
   const name = []; // empty array
 
   for (let i = 0; i < charAmount; i++) {
@@ -107,6 +106,7 @@ function generateName() {
   //set the value
   bucketName.value = name.join(""); // convert array to string
 }
+generateName()
 </script>
 
 <style scoped>
@@ -140,8 +140,10 @@ function generateName() {
   box-shadow: 0px 0px 10px var(--ui_blue);
 }
 
-h1 {
+#container h1 {
   margin: 2rem 0 1rem;
+  color: #fff;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .bucket-name {
