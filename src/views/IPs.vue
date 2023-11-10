@@ -41,13 +41,7 @@
 <script setup>
 import { ref } from "vue";
 const textAreasCount = ref(0);
-const targetIps = ref(`192.168.1.1
-192.168.1.0
-192.168.1.2
-192.168.1.3
-192.168.1.10
-255.255.255.255
-172.16.0.1`);
+const targetIps = ref(``);
 let list = ref([[],[],[],[],[]])
 let newlist = ref([[],[],[],[],[]])
 
