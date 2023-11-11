@@ -3,9 +3,10 @@ import {createRouter, createWebHistory} from 'vue-router'
 import html from '../views/HTMLText.vue'
 import Bucket from '../views/Bucket.vue'
 import IPs from '../views/IPs.vue'
-import Verification from '../views/Verification.vue'
+import Verification from '../views/Verification.vue' 
+import Clix from '../views/Clix.vue'
 
-const routes =[
+const routes = [
     {
         path:'/', 
         name :'Bucket',
@@ -25,6 +26,10 @@ const routes =[
         path:'/verification',
         name:'verification',
         component:Verification
+    },{
+        path:'/clix',
+        name:'clix',
+        component:Clix
     }
 ]
 
