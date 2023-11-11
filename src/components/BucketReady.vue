@@ -54,7 +54,8 @@ input {
   border-radius: 5px;
   padding: 0 5px;
   border: none;
-  border: 1px solid #198fe7;
+  border-left: 3px solid #198fe7;
+  border-right: 3px solid #198fe7;
 font-size: 1rem;
 box-shadow: 0 5px 10px 0px #dfffff;
 }
