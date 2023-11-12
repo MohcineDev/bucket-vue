@@ -6,7 +6,7 @@
       class="bucket-name"
       aria-label="bucket name"
       :value="bucketName"
-      @focus="e => e.target.select()"
+      @focus="(e) => e.target.select()"
     />
     <form id="form" @submit.prevent="generateName">
       <div>
@@ -106,7 +106,7 @@ function generateName() {
   //set the value
   bucketName.value = name.join(""); // convert array to string
 }
-generateName()
+generateName();
 </script>
 
 <style scoped>
@@ -177,11 +177,6 @@ form > div > div {
   align-items: center;
 }
 
-button,
-input {
-  outline: none;
-}
-
 input[type="number"] {
   width: 2rem;
 }
@@ -232,22 +227,23 @@ button:hover {
 }
 
 @media only screen and (max-width: 992px) {
-  .middle img {
-    width: 150px;
+  #container {
+    padding: 0 1rem 1rem;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  input[type="range"] {
+    width: 120px;
+  }
+  button {
+    padding: 8px;
   }
 }
-
-@media screen and (max-width: 920px) {
-  .buckets .wrapper {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+ 
 
 @media screen and (max-width: 786px) {
-  .buckets .wrapper {
-    grid-template-columns: 1fr;
-  }
-
+  
   #container {
     padding: 0 1rem 3em;
   }

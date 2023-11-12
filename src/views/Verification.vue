@@ -153,10 +153,5 @@ span {
     width: 350px;
   }
 }
-@media screen and (max-width: 992px) {
-  textarea {
-    height: 400px;
-    width: 250px;
-  }
-}
+ 
 </style>

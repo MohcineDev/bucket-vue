@@ -124,4 +124,10 @@ button:hover {
   border: 1px solid var(--dark-bg);
   color: var(--dark-bg);
 }
+/* Large devices (laptops/desktops) */
+@media only screen and (max-width: 992px) {
+  .middle img {
+  width: 200px;
+} 
+}
 </style>
