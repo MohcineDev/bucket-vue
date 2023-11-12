@@ -52,12 +52,12 @@ input {
   height: 20px;
   text-align: center;
   border-radius: 5px;
-  padding: 0 5px;
+  padding: 5px 8px;
   border: none;
   border-left: 3px solid #198fe7;
   border-right: 3px solid #198fe7;
-font-size: 1rem;
-box-shadow: 0 5px 10px 0px #dfffff;
+  font-size: 1rem;
+  box-shadow: 0 5px 10px 0px #dfffff;
 }
 input::selection{
     background-color: #198fe7;
