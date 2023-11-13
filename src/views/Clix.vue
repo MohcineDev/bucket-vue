@@ -135,11 +135,12 @@
 
 <script setup>
 import { ref } from 'vue';
-
 //minimum nbr of leads by deploy to display in the table
 const minNbLeads = ref(2)
+
 //rest of leads from 1 to minNbLeads 
 const allRestLeads = ref(1)
+
 /// textarea data 
 const rawData = ref(`hit date,"sale date","hit IP","c1","c2","c3","sales","paid",																			
 2023-11-11 10:00:10,"2023-11-11 10:20:53","99.197.123.157","51814_15742341_11_2647_68","rtkLnqRcjfWOGmtUFtQjQyFbQXVvFYqWBPTaYWlEAediZkqLRDcsAqRWugaJyBeRGeBBYL","68","1","$32.00",																			
