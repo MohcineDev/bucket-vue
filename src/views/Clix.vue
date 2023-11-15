@@ -2,10 +2,18 @@
     <h1>clix</h1>
     <section class="clix_data">
         <div class="sponsores">
+            <div>
+
             <input type="radio" value="w4" v-model="sponsores" id="w4" />
             <label for="w4"> W4</label>
             <input type="radio" value="sphere" v-model="sponsores" id="sphere" />
             <label for="sphere">Sphere</label>
+        </div>
+
+            <svg @click="resetValues" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z" clip-rule="evenodd" />
+</svg>
+
         </div>
         <textarea rows="20" cols="40" placeholder="past exported data here" v-model="rawData"></textarea>
         <div class="btns">
@@ -14,10 +22,11 @@
                     d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z"
                     clip-rule="evenodd" />
             </svg>
-        
-            <button @click="process" class="process">process</button>
-            <button v-if="processClicked" @click="generate" class="generate_entities"  >Generate Entities</button>
-            <button v-if="generateClicked" class="generate_entities_bydata">Entities By Data</button>
+            <button class="process" @click="processTextArea">process</button>
+            <button class="generate_entities" @click="GenerateEntities" :disabled="disableEntitiesButton">Generate
+                Entities</button>
+            <button class="generate_entities_bydata" @click="GenerateEntitiesBydata"
+                :disabled="disableEntitiesBydataBtn">Entities By Data</button>
         </div>
         <div id="options">
             <div>
@@ -31,9 +40,9 @@
         </div>
         <!-- button to show nbr leads and deploys with selected nbr lead -->
         <div class="nbr_leads_input">
-            <button id="displayLeads">Leads Nbr</button>
+            <button id="displayLeads" :disabled="displayLeadsDisable">Leads Nbr</button>
             <input type="number" />
-            <button id="displayIds">Display IDs</button>
+            <button id="displayIds" :disabled="displayIdsdisable">Display IDs</button>
         </div>
         <p class="displayLeads_txt"></p>
     </section>
@@ -51,6 +60,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr v-for="(item, index) in entityTableValues" :key="index" v-html="item">
+
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -76,6 +88,8 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr v-for="(item, index) in dataTableBestData" :key="index" v-html="item">
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -102,6 +116,8 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr v-for="(item, index) in dataTableValues" :key="index" v-html="item">
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -136,71 +152,83 @@ const minNbLeads = ref(2)
 //rest of leads from 1 to minNbLeads 
 const allRestLeads = ref(1)
 
-/// textarea data 
-const rawData = ref(`hit date,"sale date","hit IP","c1","c2","c3","sales","paid",																			
-2023-11-11 10:00:10,"2023-11-11 10:20:53","99.197.123.157","51814_15742341_11_2647_68","rtkLnqRcjfWOGmtUFtQjQyFbQXVvFYqWBPTaYWlEAediZkqLRDcsAqRWugaJyBeRGeBBYL","68","1","$32.00",																			
-2023-11-11 09:58:06,"2023-11-11 10:20:53","172.58.88.72","51814_15742325_11_2605_13","xiCPEZmmGWGwCKopwhrbkbMhwZyCQkvwopGthgqwypQBzrSRZXyzFgnCrjXVjQxKf","13","1","$24.00",																			
-2023-11-11 10:13:44,"2023-11-11 10:20:20","73.5.47.48","51814_15742445_11_2278_13","bWvfCKaJXRgSYcDKkIyEvESKbzTUYHHeTnMQIOcYwnoXgVVUnCpYPOuuVKCBzOdXe","13","1","$32.00",																			
-2023-11-11 10:07:49,"2023-11-11 10:20:19","75.143.99.29","51814_15742420_11_2542_13","xyYMIjmyFAkvzYRjibdRaZlbDRFZshieBmKRkZbUpQiFNZtCQOGIZbrcmgMoOhGVZXscH","13","1","$32.00",																			
-2023-11-11 09:46:55,"2023-11-11 10:19:50","66.172.230.6","51814_15742074_11_2230_77","aNIDgcZDQDRufHagyjdLPRdAeIjqAzPhhcezbLyoVbDxBcZWvNVpqkPUjyZSXD","77","1","$32.00",																			
-2023-11-11 10:14:04,"2023-11-11 10:19:12","206.72.17.236","51814_15742000_11_2230_77","lJKegPtvjFhkMCXtajaRdzdQprRlCJPooLDyWzdimMvZoLtAHXycnjLtRaesbe","77","1","$32.00",																			
-2023-11-11 10:09:30,"2023-11-11 10:18:38","69.80.241.1","51814_15742439_11_2230_77","lFrEgdskkJKzNBEacdcLcdwptXQNYPllLpphcPhgWewoLUQlXyFWOPUjdtsOt","77","1","$24.00",																			
-2023-11-11 10:11:56,"2023-11-11 10:18:04","174.204.194.84","51814_1_13_2849_95","tvDNkjxgTSkdTtuEATDmnetpYVDYKWnIcJAHNOmvYWxkNUAHPRS","95","1","$32.00",																			
-2023-11-11 10:05:05,"2023-11-11 10:16:22","172.59.48.233","51814_15741835_11_2230_77","tKVuFAjJBoVnbBxDvWQkBWKeTodrXDhhknwaUkfnaTjMDOjRoxzyKDxQWutCO","77","1","$32.00",																			
-2023-11-11 09:33:53,"2023-11-11 10:16:22","104.218.69.58","51814_15742072_11_1958_13","rpITqNYjvGaUhOeMBzVvFbQzRyFceboBXmUbqRPlRISXFJodUJPFQSuZNGsdFRGqRcuK","13","1","$32.00",																			
-2023-11-11 10:10:20,"2023-11-11 10:16:22","172.59.25.44","51814_15742180_11_2278_13","bpvrCzvHlbJphwgnFnTdHduKFIyMtHHQDzCsKohtAKcixWVMnEVxDOEAkzUBnoMLa","13","1","$32.00",																			
-2023-11-11 10:06:03,"2023-11-11 10:14:27","98.158.221.227","51814_15741750_11_2004_22","riRbEeCYnLgHcLClUlUeYFMNRuGAQqONFoYUvlCNRnQIepSugVuSGqQUeVUyz","22","1","$36.00",																			
-2023-11-11 10:01:57,"2023-11-11 10:10:46","173.16.30.140","51814_15742000_11_2230_77","rvXQoqZKcbyxvwAqHFcFYqMOXsfHvFksFNdPcqmOmVtTFVWTwNYUcqQHeBjhR","77","1","$32.00",																			
-2023-11-11 09:59:57,"2023-11-11 10:10:13","172.56.85.234","51814_15741746_11_2004_22","5NpTMtgMbjuNCBdxfxYtfxleHdfojGJLGJQhWiqJjCDgGpRvWpvFatDQxjXWo","22","1","$32.00",																			
-2023-11-11 10:00:48,"2023-11-11 10:10:13","172.59.64.178","51814_15742072_11_1958_13","tZitNkOgzRBpSddWlOzNLDKTzuSkGAleutpBLWOHkxJKtApPPQafATlMEZvMeDOQANvMX","13","1","$32.00",																			
-2023-11-11 09:45:24,"2023-11-11 10:03:22","107.77.236.31","51814_15741835_11_2230_77","aAhfEdXsRwOiAXOdjdjPrcWVBhszHduuPezYpdsgoQWqPUaqkDSYayQRdQSXU","77","1","$32.00",																			
-2023-11-11 09:58:36,"2023-11-11 10:03:22","174.236.35.204","51814_15742341_11_2647_68","bpRidItYpHQxHEgnpUwEPIWUvUSKkzWCmRoJVzNvIcfugKsdqBgwnCTtujsPUzdkndEbm","68","1","$32.00",																			
-2023-11-11 09:52:12,"2023-11-11 10:01:39","71.220.40.248","51814_15742325_11_2605_13","aaghhPxXpRUOeWwypdWfSQkdpPAeVIXpUPUbcVJRWcgmqAnDdQaqMVbzWyfpdiZms","13","1","$32.00",																			
-2023-11-11 09:48:36,"2023-11-11 10:01:39","107.136.61.175","51814_15742285_11_2230_77","5moHZGEpLBTzQbXxYiQGhGnevmHwStvvteKqhiALIHRvtplEOKezutjQxjoSD","77","1","$24.00",`)
-//////radio btn 
-const csvOrManual = ref('manual')
-const sponsores = ref('')
-
-
-const offerTitle = ref('')
-const generateEntities = document.querySelector("button.generate_entities")
-const generateEntitiesBydata = document.querySelector("button.generate_entities_bydata")
-
-const input = document.querySelector("textarea")
-const entityTable = document.querySelector("#entityTable tbody")
-const dataTable = document.querySelector("#dataTable tbody")
-const dataTableBest = document.querySelector("#dataTableBest tbody")
-const mailerRevenueTable = document.querySelector("#mailerRevenue tbody")
-
-const refreshBtn = document.querySelector("#refreshBtn")
-
-
-//options
-///radio btns  
-const manual = document.querySelector('#manual')
-//nbr leads to filter with in the table best 
-const nbrLeads = document.querySelector('#nbr_leads')
-const nbrLeadsBtn = document.querySelector('.nbr_leads_btn')
-
-const minLeadsBtn = document.querySelector('.min_leads_btn')
-
-const displayIds = document.querySelector('#displayIds')
-const displayLeads = document.querySelector('#displayLeads')
-const displayLeads_txt = document.querySelector('.displayLeads_txt')
-
-let bestDeployIDs = ''
-
 let cleanData = new Array()
 let allData = []
 let columnIndex = null
 let CSVfileIndex = 0
 
-// generateEntities.disabled = true
-// generateEntitiesBydata.disabled  =true
-// mailerRevenue.disabled  = true
+const entityTableValues = ref([])
+const dataTableValues = ref([])
+const dataTableBestData = ref([])
 
-// displayIds.disabled = true
-// displayLeads.disabled = true
+
+//// reffffffsssss//////
+/// textarea data 
+const rawData = ref(`hit date,"sale date","hit IP","c1","c2","c3","sales","paid",																		
+2023-05-16 12:58:30,"2023-05-16 13:10:27","72.191.82.22","48541_14062274_11_2070_69","rWzJrepRRPftsoTAqHqwAWZReYegALdmnNeDhFaUuceNwGkfxFQgHioaTyqQYeQAkk","69","1","$24.00",																		
+2023-05-15 23:36:34,"2023-05-15 23:45:03","172.221.243.191","48541_1_11_2878_89","amYYonyUcrcrcDPMwomVjWcKmPiHqHyzazJVByDcZRcGzJu","89","1","$24.00",																		
+2023-05-15 20:03:38,"2023-05-15 20:23:49","47.14.107.98","48541_1_11_2878_89","bXammpIdKFIFzUKPiQXcBTnAiIhwYAnOyjfctKCIdknsjZt","89","1","$24.00",																		
+2023-05-15 18:17:46,"2023-05-15 18:26:52","98.214.5.243","48541_14057262_11_2635_69","rKGbIlkTcwfZoxtlUFvjSvVlclyIxBdjieKnqaKJtFaNTdnwlRZYbudDoqBGeoWuP","69","1","$24.00",																		
+2023-05-15 14:29:35,"2023-05-15 14:36:23","108.191.68.210","48541_14068317_13_2167_94","xFFBwpTssLfYWEehepepwjFDQUocNhKLpNRJcZxfmzXrZbasTdAxcpRejUCmu","94","1","$24.00",																		
+2023-05-15 13:51:41,"2023-05-15 14:00:44","174.192.65.165","48541_1_11_2878_89","xBttArjxZehsZXpFWUvNeipDWhgdEDhCSCJQzjbpRsjtoHE","89","1","$24.00",																		
+2023-05-15 11:33:58,"2023-05-15 11:44:21","173.88.104.156","48541_14057304_11_2635_69","2NytwqtBcsGtksuepeoCNoWdIdxLLOwkkesLqTsKiqTAXFcBJEGfHXhVaerIeFyUK","69","1","$24.00",																		
+2023-05-13 11:54:39,"2023-05-15 10:50:48","70.40.81.44","48541_14060075_11_1507_19","likTUakSqezoMlhdfKCJEajPzPJOSQWZxPETdUAzodvGWVYBaEJnYcjSAdendiAlz","19","1","$24.00",																		
+2023-05-15 09:47:01,"2023-05-15 09:54:03","192.180.45.181","48541_1_11_2048_27","aAOhxyfyryNSxkfcUcNwntJDzyiBdVRMSPibnbEbdZyUpySDp","27","1","$24.00",																		
+2023-05-15 07:04:54,"2023-05-15 07:21:01","73.125.161.145","48541_14011326_11_2427_53","2woGIqUzuvMMXzsepJVqIexLkOLTCqiKJFoADdTMVZfpqWapWWRAzdWVeFrsC","53","1","$24.00",																		
+2023-05-15 00:40:45,"2023-05-15 00:55:06","173.90.97.127","48541_14060180_30_1180_22","2uwUudxYNkUBlhTqfdVdVqNVwPwbadTFemmCVeuFWacoeWGfzpWvIemfJuog","22","1","$24.00",																		
+2023-05-15 00:36:24,"2023-05-15 00:46:15","98.203.216.14","48541_14057528_11_2541_13","lvsSLQDhZsfMgLcdcLcPFTrxBoqPviPgZJEdvOqeDOPEqjAlQmKLtnatjlV","13","1","$24.00",																		
+2023-05-14 23:56:10,"2023-05-15 00:03:46","47.145.238.177","48541_14060103_11_2228_77","5ReCHxWLfwwNMALGQimolOHtQxFgylkSeGVViLKZyGJBdqOhtBchMXHQqxDQGInVO","77","1","$24.00",																		
+2023-05-14 22:52:15,"2023-05-14 23:07:14","107.77.234.204","48541_14059419_11_1766_19","xoQGRjSysJFKktSZsZejwZMBIEJnuZxBhXYqupGvBTImZGFwrKLbBjRVpxBr","19","1","$24.00",																		
+2023-05-14 22:44:18,"2023-05-14 22:54:33","38.133.244.211","48541_14060952_11_2836_19","5AXodxwBYeLkfUmifihtQGFCodawvGjCtLywNGBSrNomxBmXbhCnexHQtDgu","19","1","$24.00",																		
+2023-05-14 21:23:27,"2023-05-14 21:34:26","72.189.224.114","48541_14060152_11_1766_19","tSTBhAeVFuggbeEWQAQDUkoCgqsHhkNiATqrFkuCYbzcDTLQsBOmPWOvANCl","19","1","$24.00",																		
+2023-05-14 20:05:34,"2023-05-14 20:12:02","172.5.239.204","48541_14061619_11_2836_19","bqcvmIaDxYlHucUKJKJzbnDLHRrmfnMincAsZnEGLfvSzCPJrUNCXnUJIUip","19","1","$24.00",																		
+2023-05-13 14:25:14,"2023-05-14 19:38:39","107.127.21.132","48541_14061421_11_1872_69","2GcRQJWmWBtAkBGaJPeojYGWJVJBLbQtImdzcdWCXTqwGfXbmdrofSEBAWqOIdOvXD","69","1","$24.00",																		
+2023-05-13 00:13:53,"2023-05-14 18:35:46","172.56.91.66","48541_14057564_11_2541_13","lFQFsLZyezJOVsGPjdzLRaqBuIbSwaeMPpwXtPvbqtgBPefnCGCxfLeRLvjlI","13","1","$24.00",																		
+2023-05-13 16:44:08,"2023-05-14 18:16:05","172.56.97.161","48541_14059129_11_2836_19","5RbYMijpfgjuODfTxYGQGhicCyVMIdtpCtLPsMtjCCbzWtBFXurpZrtpYGHrR","19","1","$24.00",																		
+2023-05-13 10:53:39,"2023-05-14 18:14:24","174.215.176.233","48541_14058842_11_1766_19","lYzfFLevjvuurkrmaRdzLjdfbslNhYaUOLvoxYLUOTxKqPUfzAsrfDatzaEBZ","19","1","$24.00",																		
+2023-05-14 17:57:04,"2023-05-14 18:12:11","107.213.93.84","48541_14058404_11_2608_69","lfIJgakzEbZvoeQdjLXKZfeacaqTOtgrqdVOdmYcsdpMrZrKaUXRQrqRFPtcamZli","69","1","$24.00",																		
+2023-05-14 17:20:20,"2023-05-14 17:30:26","73.169.110.161","48541_14063567_11_1607_19","2QuHSqcjRpBBhSTeVePePqotjDQKseWndrzVDJmtcSCBdExfSKHQXqWPqEci","19","1","$24.00",																		
+2023-05-06 14:12:04,"2023-05-14 17:27:05","172.58.188.148","48541_14005467_11_2178_71","5FYTFiZDaHsFyePtXxmoTcpiftOnKIAqVxVDiZHEziemyBNSijOffnFMViDhteHEa","71","1","$24.00",																		
+2023-05-14 17:14:41,"2023-05-14 17:22:38","107.210.126.216","48541_14060987_11_2836_19","togbvDLgnXrQCIKAQAGAvAciIVsHXDOYknIybANiYstLkNoUbBJIMWuvAuim","19","1","$24.00",																		
+2023-05-14 16:56:38,"2023-05-14 17:04:14","174.196.200.173","48541_14063382_13_2240_76","5NKXDGALrADTFlYifGQxYiOnZFflnxEktJKOfGDcWXAnGpcfaAsyJxDfipCTg","76","1","$24.00",																		
+2023-05-14 16:41:13,"2023-05-14 16:55:50","172.124.18.66","48541_14058812_11_1766_19","xueMLpoDuDDdOaoZshOpwjMWkcutYhXBjbcHHpRvBTIFpRmsiDkRCjbepGBy","19","1","$24.00",																		`)
+//////radio btn 
+const csvOrManual = ref('csv')
+const sponsores = ref('')
+
+
+const offerTitle = ref('')
+
+const input = document.querySelector("textarea")
+const mailerRevenueTable = document.querySelector("#mailerRevenue tbody")
+
+const refreshBtn = document.querySelector("#refreshBtn")
+
+//////reset all values
+function resetValues(e){
+    rawData.value =''
+    entityTableValues.value = ''
+ dataTableValues.value = ''
+ dataTableBestData.value = ''
+}
+//options
+///radio btns  
+const manual = document.querySelector('#manual')
+//nbr leads to filter with in the table best  
+const nbrLeadsBtn = document.querySelector('.nbr_leads_btn')
+
+const minLeadsBtn = document.querySelector('.min_leads_btn')
+  
+const displayLeads_txt = document.querySelector('.displayLeads_txt')
+
+let bestDeployIDs = ''
+
+let disableEntitiesButton = ref(true)
+let disableEntitiesBydataBtn = ref(true)
+let displayIdsdisable = ref(true)
+let displayLeadsDisable = ref(true)
+// mailerRevenue.disabled  = true
+  
 let availabelLeadsNbrs = []
 // document.querySelector(".nbr_leads_input input").disabled = true
 
@@ -212,7 +240,7 @@ const processTextArea = () => {
     if (minNbLeads.value > 10 || minNbLeads.value < 2) { minNbLeads.value = 2, console.log(minNbLeads.value) }
     if (allRestLeads.value > 10 || allRestLeads.value < 1) { allRestLeads.value = 1, console.log(allRestLeads.value); }
 
-    //cleanEntityTable() 
+    cleanEntityTable()
     cleanData = new Array()
     if (!Boolean(rawData.value)) {
         alert("please enter your data!!!")
@@ -220,7 +248,7 @@ const processTextArea = () => {
         return
     }
     //.substring(100) to exclude the title from  the condition
-    else if (rawData.value.substring(100).includes('"') && csvOrManual.value === 'csv') {
+    else if (rawData.value.substring(100).includes('"') && csvOrManual.value === 'manual') {
         console.log("CSV")
         alert("you're using a data from csv file!!!")
         csvOrManual.value === 'csv'
@@ -249,17 +277,16 @@ const processTextArea = () => {
                 cleanValues.push(line)
             }
         })
-        console.log(cleanValues)
 
         //exclude the title that includes the dollar sign // USD for w4 text
 
-        if (sponsores.value === "w4") {
+        if (sponsores.value === sponsores.w4) {
             dollarToSaerch = "USD"
             revenueIndex = 9
             /////w4 doesn't use "" double quotes to wrap the ids column
             CSVfileIndex = 0
         }
-        else if (sponsores.value === "sphere") {
+        else if (sponsores.value === sponsores.sphere) {
             revenueIndex = 6
             /////w4 doesn't use "" double quotes to wrap the ids column
             CSVfileIndex = 0
@@ -269,7 +296,7 @@ const processTextArea = () => {
         }
 
         //if data from sphere
-        if (sponsores.value === 'sphere') {
+        if (sponsores.value === sponsores.sphere) {
             trimedValue = cleanValues
         }
         else {
@@ -277,17 +304,11 @@ const processTextArea = () => {
         }
 
         offerTitle.value = getOfferTitle(cleanValues[0]),
-            //console.log(cleanValues),
-            //  console.log(trimedValue),
 
             allData = [],
             //split each line with tab \t ==+> make tables inside allData table
             trimedValue.forEach(item => allData.push(csvOrManual.value === 'csv' ? item.split(',') : item.split('\t'))),
 
-
-             console.log(trimedValue),
-            console.log( allData),
-            console.log('above fundidscolumn : ', allData[5]),
             findIDsColumn(allData[10]),
 
             getEntity()
@@ -317,7 +338,7 @@ let searchableDeploys = []
 const getEntity = () => {
     entitiesTable = []
     searchableDeploys = []
-console.log(allData)
+
     setTimeout(() => {
         allData.forEach(elem => {
             let entity = {
@@ -348,7 +369,7 @@ console.log(allData)
             if (entityID == '71' || entityID == '41' || entityID == '19' || entityID == '97') {
                 deployState.found ? (
                     searchableDeploys[deployState.index].count++,
-                    searchableDeploys[deployState.index].revenue += w4Radio.checked ?
+                    searchableDeploys[deployState.index].revenue += sponsores.value === 'w4' ?
                         parseFloat(elem[revenueIndex + CSVfileIndex].substr(0 + CSVfileIndex, 5))
                         :
                         parseFloat(elem[6 + CSVfileIndex].substr(1 + CSVfileIndex, 5))
@@ -360,7 +381,7 @@ console.log(allData)
                         deploy.entityid = entityID.replace('_', ''),
                         deploy.mailerID = mailerID,
 
-                        deploy.revenue =sponsores.value === 'w4'  ?
+                        deploy.revenue = sponsores.value === 'w4' ?
                             parseFloat(elem[revenueIndex + CSVfileIndex].substr(0 + CSVfileIndex, 5))
                             :
                             parseFloat(elem[6 + CSVfileIndex].substr(1 + CSVfileIndex, 5)),
@@ -390,11 +411,9 @@ console.log(allData)
                 );
         })
 
-       // generateEntities.disabled = false
-       // generateEntitiesBydata.disabled = false
-//mailerRevenue.disabled = false
-
-       // generateEntities.style.cursor = "pointer"
+        disableEntitiesButton.value = false
+        disableEntitiesBydataBtn.value = false
+        //mailerRevenue.disabled = false
 
     }, 1500)
 }
@@ -447,6 +466,20 @@ function checkDeployId(deployId) {
     return foundandIndex
 }
 
+/// remove childs from entity and data table
+const cleanEntityTable = () => {
+    if (nbrvar) {
+        dataTableBestData.value = []
+    }
+    else if (minvar) {
+        dataTableValues.value = []
+    }
+    else {
+        entityTableValues.value = []
+        dataTableValues.value = []
+        dataTableBestData.value = []
+    }
+}
 
 
 ///get the entity name from its id
@@ -517,9 +550,7 @@ function checkDataExist(data) {
 let minvar = false
 let nbrvar = false
 
-
-
-// GenerateEntitiesBydata 
+ 
 function GenerateEntitiesBydata() {
     dataArray = []
     cleanData.forEach(elem => {
@@ -540,97 +571,78 @@ function GenerateEntitiesBydata() {
             dataLeads.count = 1,
             dataArray.push(dataLeads)
         )
-
         console.log(data)
-
     })
     GenerateDataTable()
 
-    generateEntitiesBydata.disabled = true
+    disableEntitiesBydataBtn.disabled = true
 
-    displayIds.disabled = false
-    displayLeads.disabled = false
+    displayIdsdisable.value = false
+    displayLeadsDisable.value = false
     document.querySelector(".nbr_leads_input input").disabled = false
-
 }
 
-// generate table  
+// generate table
 function GenerateEntities() {
     cleanEntityTable()
+
     entitiesTable.length ? (
-        entitiesTable.forEach(entity => {
-            let tr = document.createElement('tr')
 
-            craeteTableRow(entity.id, tr)
-            craeteTableRow(getEntityName(entity.id) ? getEntityName(entity.id) : '--', tr)
-            craeteTableRow(entity.count, tr)
-            craeteTableRow("$ " + Math.floor(entity.revenue), tr)
+        entitiesTable.forEach((entity, i) => {
+            let id = getEntityName(entity.id)
 
-            entityTable.appendChild(tr)
+            entityTableValues.value.push(` 
+                    <td>${entity.id}</td>
+                    <td>${id ? id : '--'}</td>
+                    <td>${entity.count}</td>
+                    <td>${"$ " + Math.floor(entity.revenue)}</td>  `)
         })
-
     ) : null
 
-    generateEntities.disabled = true
+    disableEntitiesButton.value = true
 }
 // generate data table , table best
 function GenerateDataTable() {
     // availabelLeadsNbrs = []
+    let rwData = ''
     searchableDeploys.length ? (
         searchableDeploys.forEach(elem => {
-            let tr = document.createElement('tr')
 
-            craeteTableRow(elem.id, tr)
-            craeteTableRow(elem.count, tr)
-            craeteTableRow(elem.entityid, tr)
-            craeteTableRow(`${Math.floor(elem.revenue)} $`, tr)
-            craeteTableRow(getMailerName(elem.mailerID) ? getMailerName(elem.mailerID) : elem.mailerID, tr)
-
-            elem.count >= 5 ? tr.style.background = '#f9f4cf' : null
-
+          rwData = `<td>${elem.id}</td>
+                <td class=${elem.count >=5 ? "ff": null}>${elem.count}</td>
+                <td>${elem.entityid}</td>
+                <td>${elem.revenue} $</td>
+                <td> ${getMailerName(elem.mailerID) ? getMailerName(elem.mailerID) : elem.mailerID}</td>`
+  
             if (minvar) {
-                elem.count >= minLeads.value && elem.count < nbrLeads.value ? dataTable.appendChild(tr) : null
+                elem.count >= allRestLeads.value && elem.count < minNbLeads.value ? dataTableValues.value.push(rwData) : null
 
             } else if (nbrvar) {
-                elem.count >= nbrLeads.value ? dataTableBest.appendChild(tr) : null
+                elem.count >= minNbLeads.value ? dataTableBestData.value.push(rwData) : null
             }
             else
                 // add the row to the table based on it's nbr leads
-                elem.count >= nbrLeads.value ? (
-                    dataTableBest.appendChild(tr),
-                    availabelLeadsNbrs.find((i) => i == elem.count) ? null : availabelLeadsNbrs.push(elem.count),
-                    console.log(availabelLeadsNbrs)
+                elem.count >= minNbLeads.value ? (
+                    dataTableBestData.value.push(rwData),
+                    availabelLeadsNbrs.find((i) => i == elem.count) ? null : availabelLeadsNbrs.push(elem.count)
                 )
                     :
-                    elem.count >= minLeads.value ? dataTable.appendChild(tr) : null
+                    elem.count >= allRestLeads.value ? dataTableValues.value.push(rwData) : null
 
         })
-
     ) : null
     minvar = false
     nbrvar = false
 }
 
-/////create table row
-function craeteTableRow(value, appendTo) {
-    let elem = document.createElement('td')
-    elem.textContent = value
-    appendTo.appendChild(elem)
-    return elem
-}
-
-
-// generateEntities.onclick = ()=> GenerateEntities()
-// generateEntitiesBydata.onclick = ()=> GenerateEntitiesBydata()
-
 // nbrLeadsBtn.onclick= ()=>{
 // 	nbrvar = true
-// 	cleanEntityTable()
+cleanEntityTable()
 // 	GenerateDataTable()
 // }
 // minLeadsBtn.onclick= ()=> {
 // 	 minvar= true
-// 	 cleanEntityTable()
+cleanEntityTable()
 // 	 GenerateDataTable()
 // }
 
@@ -640,33 +652,9 @@ function craeteTableRow(value, appendTo) {
 // 	input.value= ''
 // 	searchableDeploys = []
 // 	entitiesTable = []
-// 	cleanEntityTable()
+cleanEntityTable()
 // })
 
-
-/// remove childs from entity and data table
-const cleanEntityTable = () => {
-    if (nbrvar) {
-        let dataTableBest_trs = dataTableBest.querySelectorAll('tr')
-        dataTableBest_trs.length ? dataTableBest_trs.forEach(tr => dataTableBest.removeChild(tr)) : null
-    }
-    else if (minvar) {
-        let dataTable_trs = dataTable.querySelectorAll('tr')
-        dataTable_trs.length ? dataTable_trs.forEach(tr => dataTable.removeChild(tr)) : null
-
-    }
-    else {
-        let trs = entityTable.querySelectorAll('tr')
-        trs.length ? trs.forEach(tr => entityTable.removeChild(tr)) : null
-
-        let dataTable_trs = dataTable.querySelectorAll('tr')
-        dataTable_trs.length ? dataTable_trs.forEach(tr => dataTable.removeChild(tr)) : null
-
-        let dataTableBest_trs = dataTableBest.querySelectorAll('tr')
-        dataTableBest_trs.length ? dataTableBest_trs.forEach(tr => dataTableBest.removeChild(tr)) : null
-    }
-
-}
 
 
 
@@ -700,33 +688,30 @@ const cleanEntityTable = () => {
      padding: 5px;
      margin-top: 0
  }
-
-
-.btns {
-    display: flex;
-    justify-content: center;
-    margin: 1rem 0;
-    box-shadow: 0 0 4px #dfdfdf
-}
-
-.btns button {
-    padding: 5px 1rem;
-    font-size: 1.1rem;
-    width: 170px;
-    cursor: pointer;
-    border: 0;
-    background: 0;
-    background: #c7cdf7;
-    transition: transform .3s
-}
-
-.btns button:nth-of-type(2) {
-    cursor: not-allowed
-}
  
-.btns button:hover {
-    transform: translateY(-3px)
-}
+
+ .btns {
+     display: flex;
+     justify-content: center;
+     margin: 1rem 0;
+     box-shadow: 0 0 4px #dfdfdf
+ }
+
+ .btns button {
+     padding: 5px 1rem;
+     font-size: 1.1rem;
+     width: 170px;
+     cursor: pointer;
+     border: 0;
+     background: 0;
+     background: #c7cdf7;
+     transition: transform .3s
+ }
+
+
+ .btns button:hover {
+     transform: translateY(-3px)
+ }
 
  table,
  tr,
@@ -858,9 +843,13 @@ S T Y L E
  .sponsores {
      display: flex;
      align-items: center;
+     justify-content: space-between;
      padding: 5px;
  }
-
+.sponsores>div{
+    display: flex;
+    align-items: center; 
+}
  .sponsores label {
      display: block;
      cursor: pointer;
@@ -875,6 +864,21 @@ S T Y L E
      padding: 5px;
  }
 
+ 
+@keyframes resetBtn{
+    0%{
+        transform: rotate(0deg);  
+    }
+    100%{
+        transform: rotate(180deg) ;  
+    }
+}
+
+.sponsores svg{
+    width: 20px;
+    height: 20px;
+animation: resetBtn infinite 3s linear;
+}
 
  .sponsores input[type=radio] {
      display: none;
@@ -899,7 +903,7 @@ S T Y L E
      box-sizing: border-box;
  }
 
-textarea:hover {
-    border-color: #aaa
-}
+ textarea:hover {
+     border-color: #aaa
+ }
 </style>

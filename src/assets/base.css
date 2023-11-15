@@ -52,3 +52,13 @@ h1{
 input{
   outline: none;
 }
+
+td {
+  border: 1px solid #cde1dc;
+  padding: 5px;
+  text-align: center
+}
+
+.ff {
+  background-color: #f9f4cf;
+}
