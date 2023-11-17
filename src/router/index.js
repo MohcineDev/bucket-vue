@@ -5,6 +5,7 @@ import Bucket from '../views/Bucket.vue'
 import IPs from '../views/IPs.vue'
 import Verification from '../views/Verification.vue' 
 import Clix from '../views/Clix.vue'
+import Domains from '../views/Domains.vue'
 
 const routes = [
     {
@@ -30,6 +31,9 @@ const routes = [
         path:'/clix',
         name:'clix',
         component:Clix
+    },{
+        path:'/domains',
+        component:Domains
     }
 ]
 
