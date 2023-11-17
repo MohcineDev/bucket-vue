@@ -41,21 +41,13 @@
 <script setup>
 import { ref } from "vue";
 const textAreasCount = ref(0);
-const targetIps = ref(`192.168.1.1
-192.168.1.0
-192.168.1.2
-192.168.1.3
-192.168.1.10
-255.255.255.255
-172.16.0.1`);
-let list = ref([[],[],[],[],[]])
-let newlist = ref([[],[],[],[],[]])
+const targetIps = ref(``);
+let list = ref([[],[],[],[],[]]) 
 
 const splitInto = ref(2);
 
 ////update span value when target ips changes
 function targetIpsChange() {
-  console.log(targetIps);
   document.querySelector(" #ips+span").textContent =
     targetIps.value.split("\n").length;
 }
@@ -102,7 +94,7 @@ function newSplitIps(){
 
   let listNum = 0
   validIps.forEach( ip => {
-     list.value[listNum].push(`${ip}\n`)
+    list.value[listNum].push(`${ip}\n`)
     listNum+1 === splitInto.value ? listNum = 0 : listNum++
   })
 }
