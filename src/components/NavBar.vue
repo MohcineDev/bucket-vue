@@ -26,6 +26,7 @@
       <router-link to="verification">Verification</router-link>
       <router-link to="repo_sheets">Repo Sheets</router-link>
       <router-link to="clix">Clix</router-link>
+      <router-link to="domains">Domains</router-link>
       <div class="theme">
 
         <svg @click="addClass" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
