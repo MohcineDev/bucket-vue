@@ -75,7 +75,7 @@ body {
 }
 
 .middle img {
-  width: 250px;
+  width: 220px;
   box-shadow: 0 0px 15px #aaa;
   border-radius: 10px;
 }
