@@ -70,7 +70,7 @@ button {
   align-items: center;
   justify-content: center;
   width: 20px;
-  height: 22px;
+  height: 30px;
   padding: 0;
   margin-left: 10px;
   cursor: pointer;
