@@ -4,42 +4,40 @@
         <div class="sponsores">
             <div>
 
-            <input type="radio" value="w4" v-model="sponsores" id="w4" />
-            <label for="w4"> W4</label>
-            <input type="radio" value="sphere" v-model="sponsores" id="sphere" />
-            <label for="sphere">Sphere</label>
-        </div>
+                <input type="radio" value="w4" v-model="sponsores" id="w4" />
+                <label for="w4"> W4</label>
+                <input type="radio" value="sphere" v-model="sponsores" id="sphere" />
+                <label for="sphere">Sphere</label>
+            </div>
 
-            <svg @click="resetValues" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-  <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z" clip-rule="evenodd" />
-</svg>
+            <svg @click="resetValues" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                class="w-5 h-5">
+                <path fill-rule="evenodd" title="refrsh all values / page"
+                    d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z"
+                    clip-rule="evenodd" />
+            </svg>
 
         </div>
         <textarea rows="20" cols="40" placeholder="past exported data here" v-model="rawData"></textarea>
         <div class="btns">
-            <svg id="refreshBtn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                <path fill-rule="evenodd"
-                    d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z"
-                    clip-rule="evenodd" />
-            </svg>
+
             <button class="process" @click="processTextArea">process</button>
-            <button class="generate_entities" @click="GenerateEntities" :disabled="disableEntitiesButton">Generate
+            <button v-show="processClicked" class="generate_entities" @click="GenerateEntities"
+                :disabled="disableEntitiesButton">Generate
                 Entities</button>
-            <button class="generate_entities_bydata" @click="GenerateEntitiesBydata"
+            <button v-show="generateEntitiesClicked" class="generate_entities_bydata" @click="GenerateEntitiesBydata"
                 :disabled="disableEntitiesBydataBtn">Entities By Data</button>
         </div>
-        <div id="options">
-            <div>
+        <div class="options">
+            <label for="manual">
                 <input type="radio" name="option" value="manual" v-model="csvOrManual" id="manual" />
-                <label for="manual">Manual</label>
-            </div>
-            <div>
+                Manual</label>
+            <label for="csv">
                 <input type="radio" name="option" id="csv" value="csv" v-model="csvOrManual" />
-                <label for="csv">CSV</label>
-            </div>
+                CSV</label>
         </div>
         <!-- button to show nbr leads and deploys with selected nbr lead -->
-        <div class="nbr_leads_input">
+        <div v-show="generateDone" class="nbr_leads_input">
             <button id="displayLeads" :disabled="displayLeadsDisable">Leads Nbr</button>
             <input type="number" />
             <button id="displayIds" :disabled="displayIdsdisable">Display IDs</button>
@@ -47,24 +45,11 @@
         <p class="displayLeads_txt"></p>
     </section>
     <h2 id="offerTitle">{{ offerTitle }}</h2>
+    <hr>
     <section class="tables">
         <div>
             <p>entity leads and revenue </p>
-            <table id="entityTable" title="entity leads and revenue ">
-                <thead>
-                    <tr>
-                        <th>Entity ID</th>
-                        <th>Entity Name</th>
-                        <th>Leads Nbr</th>
-                        <th>Revenue</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(item, index) in entityTableValues" :key="index" v-html="item">
-
-                    </tr>
-                </tbody>
-            </table>
+           
         </div>
         <div>
             <p>deploys with more than " nbr Leads " and its revenue by mailer</p>
@@ -77,21 +62,7 @@
                         d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                 </svg>
             </div>
-            <table id="dataTableBest" title="deploys with more than 2 leads and its revenue by mailer ">
-                <thead>
-                    <tr>
-                        <th>data ID</th>
-                        <th>Leads Nbr</th>
-                        <th>Entity ID</th>
-                        <th>Revenue</th>
-                        <th>Mailer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(item, index) in dataTableBestData" :key="index" v-html="item">
-                    </tr>
-                </tbody>
-            </table>
+           
         </div>
         <div>
             <p>deploy lead and revenue / mailer </p>
@@ -105,11 +76,47 @@
                 </svg>
 
             </div>
-            <table id="dataTable">
+            
+            <v-icon icon="$vuetify" size="large"></v-icon>
+        </div>
+    </section>
+
+    <section class="tables_section">
+        <table id="entityTable" title="entity leads and revenue ">
+                <thead>
+                    <tr>
+                        <th>Entity ID</th>
+                        <th>Entity Name</th>
+                        <th>Nbr Leads</th>
+                        <th>Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in entityTableValues" :key="index" v-html="item">
+
+                    </tr>
+                </tbody>
+            </table>
+        <table id="dataTableBest" title="deploys with more than 2 leads and its revenue by mailer ">
                 <thead>
                     <tr>
                         <th>data ID</th>
-                        <th>Leads Nbr</th>
+                        <th>Nbr Leads</th>
+                        <th>Entity ID</th>
+                        <th>Revenue</th>
+                        <th>Mailer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in dataTableBestData" :key="index" v-html="item">
+                    </tr>
+                </tbody>
+            </table>
+        <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>data ID</th>
+                        <th>Nbr Leads</th>
                         <th>Entity ID</th>
                         <th>Revenue</th>
                         <th>Mailer</th>
@@ -120,7 +127,6 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
     </section>
     <section class="tables" title="mailer / revenue for ECM4, ECM5">
         <table id="mailerRevenue">
@@ -142,6 +148,19 @@
         <li>replace mailer id by its name</li>
         <li>generate revenue by mailer</li>
     </ul>
+
+
+    <section class="how_to">
+        <h3>how to :</h3>
+        <ul>
+            <li>select the sponsore</li>
+            <li>past the values from csv file / or Ctrl+A from the leads page and past</li>
+            <li>selct the manual or csv </li>
+            <li>click process to start processing the data </li>
+            <li>click generate to generate the entities</li>
+            <li>click entities by data to generate accessible entities to get deploys and mailers ids</li>
+        </ul>
+    </section>
 </template>
 
 <script setup>
@@ -160,11 +179,15 @@ let CSVfileIndex = 0
 const entityTableValues = ref([])
 const dataTableValues = ref([])
 const dataTableBestData = ref([])
-
+// conditionally display btns
+const processClicked = ref(false)
+const generateEntitiesClicked = ref(false)
+//generate div after everything is done
+const generateDone = ref(false)
 
 //// reffffffsssss//////
 /// textarea data 
-const rawData = ref(`hit date,"sale date","hit IP","c1","c2","c3","sales","paid",																		
+const rawData0 = ref(`hit date,"sale date","hit IP","c1","c2","c3","sales","paid",																		
 2023-05-16 12:58:30,"2023-05-16 13:10:27","72.191.82.22","48541_14062274_11_2070_69","rWzJrepRRPftsoTAqHqwAWZReYegALdmnNeDhFaUuceNwGkfxFQgHioaTyqQYeQAkk","69","1","$24.00",																		
 2023-05-15 23:36:34,"2023-05-15 23:45:03","172.221.243.191","48541_1_11_2878_89","amYYonyUcrcrcDPMwomVjWcKmPiHqHyzazJVByDcZRcGzJu","89","1","$24.00",																		
 2023-05-15 20:03:38,"2023-05-15 20:23:49","47.14.107.98","48541_1_11_2878_89","bXammpIdKFIFzUKPiQXcBTnAiIhwYAnOyjfctKCIdknsjZt","89","1","$24.00",																		
@@ -193,33 +216,65 @@ const rawData = ref(`hit date,"sale date","hit IP","c1","c2","c3","sales","paid"
 2023-05-14 16:56:38,"2023-05-14 17:04:14","174.196.200.173","48541_14063382_13_2240_76","5NKXDGALrADTFlYifGQxYiOnZFflnxEktJKOfGDcWXAnGpcfaAsyJxDfipCTg","76","1","$24.00",																		
 2023-05-14 16:41:13,"2023-05-14 16:55:50","172.124.18.66","48541_14058812_11_1766_19","xueMLpoDuDDdOaoZshOpwjMWkcutYhXBjbcHHpRvBTIFpRmsiDkRCjbepGBy","19","1","$24.00",																		`)
 //////radio btn 
+
+
+const rawData = ref(`Date,IP,C1,C2,C3,Sales,Earnings
+-,-,50660_15536368_11_2345_71,trSSqWNOovQdQRSBWdBXXQWjGsXvAvDKeQXcNJWhOAnySlWyOHRRmATKdHXfrzkuUkaXVw,71,1,5
+-,-,50660_15729541_11_2786_71,2SPRwelMAsPfTkFdPdiVsQfqIeiwDBrOSdlWeTXksdRFuZwVeWNXunNGmqWPqhQlu,71,1,5
+-,-,50660_15729752_11_2786_71,xmKWBhSxweyoQlejwhyeHJsjVZyXYHRfYhzRjgYkTjQKKCnYZXyzQWzlQhGVZnuco,71,1,5
+-,-,50660_15729799_11_2786_71,bSXGXIXUsccBdTRIkKykNrBIBzTotDdESngdzOxwqnhiioQYKUyYcLRLXIUbzeZYc,71,1,5
+-,-,50660_15729844_11_2786_71,2sPHAJrOongXFuvsJPeNpSQfJpqYmyGkfWqUWdFlvzeTtnFRXqrHbwtjGaempeZzDT,71,1,5
+-,-,50660_15729844_11_2786_71,5nykHxppcSnuQcbVxQGThNaYthxuJYMWLhtEBiZEzMtLgSeqvtpndJComOtHfxIadK,71,1,5
+-,-,50660_15729844_11_2786_71,riHgwFRpgnSJnsKVeHeMYDDHlHFSNDPMWflkBFdTXDeNxxamuqVMsNxAvyeRUqLrka,71,1,5
+-,-,50660_15729844_11_2786_71,xqXILjRGFKmJmaOGjejlVHTejVprQYLbbaZcRhQYDHpQBKQAPjXSYgKIFajGshfqYg,71,1,5
+-,-,50660_15729844_11_2786_71,xyQYDjxGFBEWbzRGpsjrVJHVZVZybrMkOXjzXpgEkJjgBBNnEjxrEgBImLpXOhnucQ,71,1,5
+-,-,50660_15729892_11_2786_71,rDHWOqpsWSBQsIilYlWGriHFceWdHiwBhlTBlafzEqaIINJseRbTNxjINFVHqPiuN,71,1,5
+-,-,50660_15751821_11_2345_71,2yltOdMllKpnUnWqpJNpSzPdIeNTDBzgsebrewKaHeRAARxGJEiUirkTreOIJhzXu,71,1,5
+-,-,50660_15751821_11_2345_71,lwoOUdKJvgBxYTqdcaCnYxnPjPZyoqVYVPltPpiqQaimgMJqaUQHQUsmeLURPMVGy,71,1,5
+-,-,50660_15751821_11_2345_71,lwoTvaOxibSUQAiPRPCjVIjajLQmHXxVSaHULgkfAakDDhJFaeQoAEsDvPUjLWYGm,71,1,5
+-,-,50660_15751832_11_2345_71,aAqmUdApFLxpllbdRyapEJrPpdngujWHRyBQPVbFndGgiYMMcZnvaQKGgPZjyoOhe,71,1,5
+-,-,50660_15751832_11_2345_71,xrEKXjceuDbcWtqheplOqHwhwjSgzaJqzjPxjotMyhnQNtFaZXlcrxdtoZGeZtuzN,71,1,5
+-,-,50660_15752009_11_1950_71,xqsiLpclWQPWSuOZejSwuHwjVhrXggveIZPGZRvrOpnCNfLMjRSzyQeVvjxOZfTPo,71,1,5
+-,-,50660_15752125_11_2345_71,2ilnWdUMOAEPIySJfqNIsSpqPqiADfNbpdUOJAhGHeZFuKxBeWYbHuOFYeOpJhsUA,71,1,5
+-,-,50660_15752125_11_2345_71,aWqXDyKhifutSkqdpcApJEpdrdWfzgCrlyvZyVYkWPYegbMkPfAvWzZVnPQpPotvz,71,1,5
+-,-,50660_15752188_11_1950_71,2SfGBeOmyrBHSaayqpJyPzgPJfeiFXGsgKeXEqrnyVJZAwMBtdOHbHuWCjeWIdhSlu,71,1,5
+-,-,50660_15752188_11_1950_71,2ylEndWONriPuVEldpJifgsVJVeiFlpyjWdlOqOLYVJhTwZacdONUiArjkqrfeMzUA,71,1,5
+-,-,50660_15752188_11_1950_71,aaghBdQQAQTaIQBgdLPaREJLcpPAevMJlWPvQcUCnpysVgoNXyDaqngfSKPDLysOvz,71,1,5
+-,-,50660_15752188_11_1950_71,aJpsiyfUnUGmWEWiyrcapOOpdjcxeqNJJsdqDPDXWjdbVioMwdZnvAzfSIPZjdYEvg,71,1,5
+-,-,50660_15752188_11_1950_71,bVlFHKUCpMPPZglHnbKVJqrJzbzWOxBywdnYdIdGWknmojelXKdWtVhUwAzUBzsfth,71,1,5
+-,-,50660_15752245_11_2782_71,5WPBJiEZOkELwwZiYGlfaMQtQxRLUXTVhGUpiLEoZtwKJAFSGDldTZJWlxBXiqkUK,71,1,5
+-,-,50660_15752245_11_2782_71,aNKZzyULlEYjJJjldLdxLOlrdLPAghTEJGPBUPzhHVybzibNmPZnuWgVTnPDpcYEve,71,1,5
+-,-,50660_15752473_11_2178_71,5NcQeGEpkaCOggyGYGTQkNXtQGlJUYnvIxVHGJDUPtqZJqWmGjTURemEsGHhtskdJ,71,1,5
+-,-,50660_15752613_11_2178_71,lxzCDaUvZUkAmmGgLcPCnIVcdRdweymbzYLovPptHsPMgpMffdUAlQmVtiLEnLMVSD,71,1,5
+-,-,50660_15753805_11_2791_71,xaBWdjGfgotGsMRZepejVZlCuctgqpEXZQEWbZfQQUauZxicitIerZXshfJzg,71,1,5
+-,-,50660_15753805_11_2791_71,xaKKdjkabtNrXwXpOpOpVZlxdlCTNZzxZNcWXpngofLTpRScyAdsijxejUHzN,71,1,5
+-,-,50660_15754319_11_2791_71,aOjxgyTRzBtXNTUdjcLdpdxfXanDudhQPVqmQyGieoNlPQWhxFYDwdZLPsOBe,71,1,5
+-,-,50660_15755372_11_2791_71,5TOpdiIhnWVgZZexhxYihGTBoTKnCtVDxedgpxweLqcbtDnEllAVKGpYxsbve,71,1,5
+-,-,50660_15755806_11_2791_71,bDiiAKVdxihkqXhnFzBzkKydQDoHGIgMzhgiEKQjoelNKMVgTTwJrndknsfRh,71,1,5
+-,-,50660_15757148_11_2782_71,ryjBdepUTLKYPjaheYqUqGqbOETmOXesQFOszdeCOamwiFRWuMupvAqVcemiua,71,1,5
+-,-,50660_15757148_11_2782_71,xMIbgjYUmFPeBcBjeZOpwpyXnMoDzZExjQEIghtgNtMHpbiPycbaDZxVhtHPC,71,1,5
+-,-,50660_15757185_11_2782_71,tozxPWeMbIFXUwcDBkBDvklTHLezMDMODZhzwAfwZaEFWxlhdMNIjDNBApXRn,71,1,5
+-,-,50660_15757214_11_2782_71,bfkscIdEWdZoviMmzBKBIJIWUNDVtbIYMzcRwhnehjQSqIdVYygcClzdbnerYh,71,1,5`)
 const csvOrManual = ref('csv')
 const sponsores = ref('')
 
 
 const offerTitle = ref('')
 
-const input = document.querySelector("textarea")
-const mailerRevenueTable = document.querySelector("#mailerRevenue tbody")
 
-const refreshBtn = document.querySelector("#refreshBtn")
 
 //////reset all values
-function resetValues(e){
-    rawData.value =''
+function resetValues(e) {
+    rawData.value = ''
     entityTableValues.value = ''
- dataTableValues.value = ''
- dataTableBestData.value = ''
+    dataTableValues.value = ''
+    dataTableBestData.value = ''
+    processClicked.value = false
+    generateEntitiesClicked.value = false
+    generateDone.value = false
 }
-//options
-///radio btns  
-const manual = document.querySelector('#manual')
-//nbr leads to filter with in the table best  
-const nbrLeadsBtn = document.querySelector('.nbr_leads_btn')
 
-const minLeadsBtn = document.querySelector('.min_leads_btn')
-  
-const displayLeads_txt = document.querySelector('.displayLeads_txt')
+
 
 let bestDeployIDs = ''
 
@@ -228,7 +283,7 @@ let disableEntitiesBydataBtn = ref(true)
 let displayIdsdisable = ref(true)
 let displayLeadsDisable = ref(true)
 // mailerRevenue.disabled  = true
-  
+
 let availabelLeadsNbrs = []
 // document.querySelector(".nbr_leads_input input").disabled = true
 
@@ -236,9 +291,14 @@ let revenueIndex = null
 //rawData.value =''
 const processTextArea = () => {
 
+    if(sponsores.value ==''){
+        alert('Select the sponsor!!')
+        return
+    }
     //set nbr leads default value
-    if (minNbLeads.value > 10 || minNbLeads.value < 2) { minNbLeads.value = 2, console.log(minNbLeads.value) }
-    if (allRestLeads.value > 10 || allRestLeads.value < 1) { allRestLeads.value = 1, console.log(allRestLeads.value); }
+    if (minNbLeads.value > 10 || minNbLeads.value < 2) { minNbLeads.value = 2 }
+    if (allRestLeads.value > 10 || allRestLeads.value < 1) { allRestLeads.value = 1 }
+    console.log(csvOrManual.value + ' | ' + sponsores.value)
 
     cleanEntityTable()
     cleanData = new Array()
@@ -247,11 +307,12 @@ const processTextArea = () => {
 
         return
     }
+
     //.substring(100) to exclude the title from  the condition
     else if (rawData.value.substring(100).includes('"') && csvOrManual.value === 'manual') {
         console.log("CSV")
         alert("you're using a data from csv file!!!")
-        csvOrManual.value === 'csv'
+        csvOrManual.value = 'csv'
         CSVfileIndex = 1
     }
     else if (rawData.value.includes('"') && csvOrManual.value === 'csv') {
@@ -260,8 +321,10 @@ const processTextArea = () => {
     else {
         ///csvBtn.checked = false
         ///manual.checked = true
+        console.log('dddddddddd')
         CSVfileIndex = 0
     }
+    processClicked.value = !processClicked.value
 
     let splitedValue = rawData.value.split('\n')
     let trimedValue = []
@@ -270,7 +333,7 @@ const processTextArea = () => {
 
     // push it if not empty 
     if (splitedValue.length >= 10) {
-        console.log(splitedValue)
+
         //remove empty rows
         splitedValue.forEach(line => {
             if (line.trim().length > 30) {
@@ -280,38 +343,43 @@ const processTextArea = () => {
 
         //exclude the title that includes the dollar sign // USD for w4 text
 
-        if (sponsores.value === sponsores.w4) {
+        if (sponsores.value === "w4") {
             dollarToSaerch = "USD"
             revenueIndex = 9
             /////w4 doesn't use "" double quotes to wrap the ids column
             CSVfileIndex = 0
         }
-        else if (sponsores.value === sponsores.sphere) {
+        else if (sponsores.value === "sphere") {
             revenueIndex = 6
             /////w4 doesn't use "" double quotes to wrap the ids column
             CSVfileIndex = 0
+            console.log('sphere')
         }
         else {
             dollarToSaerch = "$"
         }
 
         //if data from sphere
-        if (sponsores.value === sponsores.sphere) {
+        if (sponsores.value === "sphere") {
             trimedValue = cleanValues
         }
         else {
-            cleanValues.forEach(str => str.substring(cleanValues[0].length / 2).includes(dollarToSaerch) ? trimedValue.push(str) : null)
+            cleanValues.forEach(str => str.substring(cleanValues[0].length / 2).includes(dollarToSaerch) ? (trimedValue.push(str), console.log('hiii')) : (null, console.log('buyy')))
         }
 
-        offerTitle.value = getOfferTitle(cleanValues[0]),
+        ///offerTitle.value = getOfferTitle(cleanValues[0])
 
-            allData = [],
-            //split each line with tab \t ==+> make tables inside allData table
-            trimedValue.forEach(item => allData.push(csvOrManual.value === 'csv' ? item.split(',') : item.split('\t'))),
+        allData = []
 
-            findIDsColumn(allData[10]),
 
-            getEntity()
+        //split each line with tab \t ==+> make tables inside allData table
+        trimedValue.forEach(item => {
+            csvOrManual.value === 'csv' ? allData.push(item.split(',')) : item.split('\t')
+
+        })  
+        findIDsColumn(allData[10])
+
+        getEntity()
     }
     else alert("unable to prosses \n you must enter at least 10 rows")
 
@@ -511,13 +579,13 @@ const getEntityName = (id) => {
 
 ///get mailer name
 const getMailerName = (id) => {
-    const allMailersName = ["o.aitslim", "h.touza", "z.hammou", "s.hado", "a.oukk",
-        "m.faki", "m.kholl", "z.boussela", "i.azzou", "i.elba",
-        "m.aitalla", "y.choua", "a.timmi", "baj", "a.jebbou",
-        'i.blilid', 'o.houra', 't.saou', 'z.kabi', 'z.karhou',
-        'z.elgourc', 'r.beylo', 'a.hadou', 'n.kerai', 'h.benlam',
-        'a.elkarni', 'a.elhadd', 'y.ouhann', 'y.bou', 'm.assemr',
-        'a.boqt', 'c.talhao', 'm.agouzo']
+    const allMailersName = ["o.aitsl", "h.tuza", "z.hamm", "s.hdo", "a.oukk",
+        "m.fai", "m.kholl", "z.boula", "i.azzou", "i.elba",
+        "m.aitalla", "y.choua", "a.tim", "baj", "a.jebou",
+        'i.blid', 'o.houa', 't.saou', 'z.kbi', 'z.krhou',
+        'z.elgour', 'r.beylo', 'a.hadou', 'n.kerai', 'h.bnlam',
+        'a.elkarn', 'a.elhad', 'y.ouhann', 'y.bou', 'm.asemr',
+        'a.boqt', 'c.talho', 'm.agouzo']
 
     const allMailersID = [1945, 2175, 1626, 2351, 1954,
         2792, 1951, 1949, 2348, 1950,
@@ -550,8 +618,9 @@ function checkDataExist(data) {
 let minvar = false
 let nbrvar = false
 
- 
+
 function GenerateEntitiesBydata() {
+    generateDone.value = true
     dataArray = []
     cleanData.forEach(elem => {
 
@@ -584,6 +653,8 @@ function GenerateEntitiesBydata() {
 
 // generate table
 function GenerateEntities() {
+    generateEntitiesClicked.value = !generateEntitiesClicked.value
+
     cleanEntityTable()
 
     entitiesTable.length ? (
@@ -603,17 +674,20 @@ function GenerateEntities() {
 }
 // generate data table , table best
 function GenerateDataTable() {
+    dataTableBestData.value = []
+    dataTableValues.value = []
+
     // availabelLeadsNbrs = []
     let rwData = ''
     searchableDeploys.length ? (
         searchableDeploys.forEach(elem => {
 
-          rwData = `<td>${elem.id}</td>
-                <td class=${elem.count >=5 ? "ff": null}>${elem.count}</td>
+            rwData = `<td>${elem.id}</td>
+                <td class=${elem.count >= 5 ? "ff" : null}>${elem.count}</td>
                 <td>${elem.entityid}</td>
                 <td>${elem.revenue} $</td>
                 <td> ${getMailerName(elem.mailerID) ? getMailerName(elem.mailerID) : elem.mailerID}</td>`
-  
+
             if (minvar) {
                 elem.count >= allRestLeads.value && elem.count < minNbLeads.value ? dataTableValues.value.push(rwData) : null
 
@@ -646,12 +720,6 @@ cleanEntityTable()
 // 	 GenerateDataTable()
 // }
 
-// refreshBtn.addEventListener('click', ()=>{
-// 	//clean the var and inputs 
-// 	offerTitle.textContent = ''
-// 	input.value= ''
-// 	searchableDeploys = []
-// 	entitiesTable = []
 cleanEntityTable()
 // })
 
@@ -680,7 +748,12 @@ cleanEntityTable()
 </script>
 
 
-<style scoped> h2#offerTitle {
+<style scoped> 
+
+section{
+padding: 1rem;
+}
+h2#offerTitle {
      text-align: center;
      font-size: 17px;
      background: var(--dark);
@@ -688,57 +761,33 @@ cleanEntityTable()
      padding: 5px;
      margin-top: 0
  }
- 
 
- .btns {
-     display: flex;
-     justify-content: center;
-     margin: 1rem 0;
-     box-shadow: 0 0 4px #dfdfdf
- }
-
- .btns button {
-     padding: 5px 1rem;
-     font-size: 1.1rem;
-     width: 170px;
-     cursor: pointer;
-     border: 0;
-     background: 0;
-     background: #c7cdf7;
-     transition: transform .3s
- }
-
-
- .btns button:hover {
-     transform: translateY(-3px)
- }
 
  table,
  tr,
  th,
  td {
      border: 1px solid #cde1dc;
-     padding: 5px;
+     padding: 3px;
      text-align: center
  }
 
  tr:nth-child(2n+1) {
-     background: #f1f2fb
+    background-color:rgb(151 154 177 / 40%);
  }
-
- tr:hover {
-     background: #f5f5f5
- }
-
- th {
-     font-size: 18px
- }
+ 
 
  .tables {
      display: flex;
      align-items: flex-start;
      justify-content: space-around;
      margin: 1rem 0
+ }
+ .tables_section{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1rem;
+    align-items: start;
  }
 
  table {
@@ -749,54 +798,46 @@ cleanEntityTable()
      box-shadow: 0 0 5px #f1f1f1
  }
 
- svg {
-     width: 30px;
-     height: 30px;
-     align-self: center;
-     display: inline;
-     margin-right: 1rem;
-     cursor: pointer
- }
-
- .btns svg {
-     display: none
- }
-
- #options,
+ .btns,
+ .options,
  .nbr_leads_input {
+     width: 50%;
+     margin: 10px auto;
+     display: flex;
+     justify-content: center;
+ }
+
+ .btns button,
+ .nbr_leads_input button {
+     width: 33%;
+     padding: 5px 1rem;
+     font-size: 1.1rem;
+     cursor: pointer;
+     background-color: #a3d1f3;
+     border: 0;
+ }
+
+ .options {
      display: flex;
      align-items: center;
      justify-content: center;
-     margin: 1rem 0
  }
 
- #options div {
-     padding: 0 1rem
- }
-
- #options label {
+ .options label {
+     padding: 0 1rem;
      cursor: pointer
  }
 
- .nbr_leads_input button {
-     padding: 5px 1rem;
-     font-size: 1.1rem;
-     width: 170px;
-     cursor: pointer;
-     border: 0;
-     background: #c7cdf7;
-     transition: transform .3s
- }
-
  .nbr_leads_input input {
+     width: 33%;
+     box-sizing: border-box;
      padding: 5px 1rem;
      font-size: 1.1rem;
-     width: 170px;
-     border: 0;
-     background: #c7cdf7;
-     outline: 0;
-     border-right: 2px solid white;
-     border-left: 2px solid white
+     background-color: #a3d1f3;
+     border-style: solid;
+     border-width: 0 2px 0 2px;
+     border-color: #fff;
+
  }
 
  .displayLeads_txt {
@@ -846,10 +887,12 @@ S T Y L E
      justify-content: space-between;
      padding: 5px;
  }
-.sponsores>div{
-    display: flex;
-    align-items: center; 
-}
+
+ .sponsores>div {
+     display: flex;
+     align-items: center;
+ }
+
  .sponsores label {
      display: block;
      cursor: pointer;
@@ -864,21 +907,23 @@ S T Y L E
      padding: 5px;
  }
 
- 
-@keyframes resetBtn{
-    0%{
-        transform: rotate(0deg);  
-    }
-    100%{
-        transform: rotate(180deg) ;  
-    }
-}
 
-.sponsores svg{
-    width: 20px;
-    height: 20px;
-animation: resetBtn infinite 3s linear;
-}
+ @keyframes resetBtn {
+     0% {
+         transform: rotate(0deg);
+     }
+
+     100% {
+         transform: rotate(180deg);
+     }
+ }
+
+ .sponsores svg {
+     width: 20px;
+     height: 20px;
+     animation: resetBtn infinite 3s linear;
+     cursor: pointer;
+ }
 
  .sponsores input[type=radio] {
      display: none;
