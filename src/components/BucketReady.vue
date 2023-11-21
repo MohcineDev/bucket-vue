@@ -15,6 +15,10 @@
         />
       </svg>
     </button>
+    <p>
+    {{ somet }}
+
+    </p>
   </div>
 </template>
 
