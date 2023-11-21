@@ -1,12 +1,13 @@
 <template>
   <h1>Verificationnnnnnnnnn</h1>
+  <FirstTextarea  :myContent="textAreaSrc" ID="src" placeHolder="past here / coller ici"/>
   <div class="container">
     <div class="textareas">
       <div id="refresh" @click="emptyTextareas">Refresh</div>
 
       <div>
-        <textarea id="src" :value="textAreaSrc" @input="(e) => (textAreaSrc = e.target.value)"
-          placeholder="past here / coller ici"></textarea>
+        <textarea     @input="(e) => (textAreaSrc = e.target.value)"
+          ></textarea>
         <span>{{ spanSrcCount }}</span>
       </div>
       <div>
@@ -61,7 +62,10 @@
 
 <script setup>
 import { ref } from "vue";
+import FirstTextarea from '../components/FirstTextarea.vue'
 //@focus="(e) => (e.target.select(),  window.navigator.clipboard.writeText =  e.target.value)"
+const props = defineProps(['myContent', 'ID', 'placeHolder']) 
+
 
 const textAreaSrc = ref("");
 const textAreaResult = ref("");
@@ -318,7 +322,7 @@ boite-not-work,224
 const textAreaSrc1 = ref('')
 const textAreaResult1 = ref("");
 const spanSrcCount = ref();
-const spanResultCount = ref();
+const spanResultCount = ref();   
 
 function generateProfiles() {
   textAreaResult.value = "";

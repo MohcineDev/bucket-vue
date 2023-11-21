@@ -775,7 +775,6 @@ h2#offerTitle {
  tr:nth-child(2n+1) {
     background-color:rgb(151 154 177 / 40%);
  }
- 
 
  .tables {
      display: flex;
