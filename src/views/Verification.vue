@@ -6,79 +6,32 @@
 
     <div class="textareas">
       <div id="refresh" @click="emptyTextareas">Refresh</div>
-        <FirstTextarea :myContent="textAreaSrc" color='gray'
-              @handleChange="e=>(textAreaSrc = e.target.value)"
-        ID="src" @handleFocus="e=>e.target.select()" placeHolder="past here / coller ici" 
-          :spanCount='spanSrcCount'/>
-          
-        <FirstTextarea  ID="result" placeHolder="result" readonly="true" 
-        :myContent="textAreaResult"
-        :spanCount='spanResultCount'/>
-    </div>
+      <FirstTextarea :myContent="textAreaSrc" color='gray' @handleChange="e => (textAreaSrc = e.target.value)" ID="src"
+        @handleFocus="e => e.target.select()" placeHolder="past here / coller ici" :spanCount='spanSrcCount' />
 
-    <button @click="generateProfiles">Submit</button>
-  </div>
-  <!--  -->
-  <div class="container">
-    <div class="textareas">
-      <div id="refresh" @click="emptyTextareas">Refresh</div>
-
-      <div>
-        <textarea @input="(e) => (textAreaSrc = e.target.value)"></textarea>
-        <span>{{ spanSrcCount }}</span>
-      </div>
-      <div>
-        <textarea id="result" :value="textAreaResult" @input="(e) => (textAreaResult = e.target.value)" @focus="(e) => e.target.select()" placeholder="result" readonly="true"></textarea>
-        <span>{{ spanResultCount }}</span>
-      </div>
+      <FirstTextarea ID="result" placeHolder="result" readonly="true" :myContent="textAreaResult"
+        :spanCount='spanResultCount' />
     </div>
 
     <button @click="generateProfiles">Submit</button>
   </div>
 
-  <div class="container1">
-    <p>get restricted profiles</p>
-    <div class="textareas2">
-      <div>
-        <textarea id="src" :value="textAreaSrc1" @input="(e) => (textAreaSrc1 = e.target.value)" placeholder="past here / coller ici" ></textarea>
-      </div>
-      <div>
-        <textarea id="result" :value="textAreaResult1" @input="(e) => (textAreaResult1 = e.target.value)" @focus="(e) => e.target.select()" placeholder="result" readonly="true"
-        ></textarea>
-      </div>
-    </div>
 
-    <button @click="generateProfiles1">Submit</button>
-  </div>
+
 
   <section>
     <div class="container2">
       <div class="textareas2">
         <div>
-          <textarea
-            id="src"
-            :value="nbrs1"
-            @input="(e) => (nbrs1 = e.target.value)"
-            placeholder="allprofiles"
-          ></textarea>
+          <textarea id="src" :value="nbrs1" @input="(e) => (nbrs1 = e.target.value)" placeholder="allprofiles"></textarea>
         </div>
         <div>
-          <textarea
-            id="result"
-            :value="nbrs2"
-            @input="(e) => (nbrs2 = e.target.value)"
-            placeholder="to subtract"
-          ></textarea>
+          <textarea id="result" :value="nbrs2" @input="(e) => (nbrs2 = e.target.value)"
+            placeholder="to subtract"></textarea>
         </div>
         <div>
-          <textarea
-            id="result"
-            :value="nbrs3"
-            @input="(e) => (nbrs3 = e.target.value)"
-            @focus="(e) => e.target.select()"
-            placeholder="result"
-            readonly="true"
-          ></textarea>
+          <textarea id="result" :value="nbrs3" @input="(e) => (nbrs3 = e.target.value)" @focus="(e) => e.target.select()"
+            placeholder="result" readonly="true"></textarea>
         </div>
       </div>
 
@@ -92,7 +45,7 @@ import { ref } from "vue";
 import FirstTextarea from "../components/FirstTextarea.vue";
 //@focus="(e) => (e.target.select(),  window.navigator.clipboard.writeText =  e.target.value)"
 // const props = defineProps(["myContent", "ID", "placeHolder"]);
-function doSomething(e){
+function doSomething(e) {
   console.log(e)
 
 }
@@ -140,17 +93,20 @@ function generateProfiles() {
   let data = textAreaSrc.value.split("\n");
 
   data.forEach((row) => {
-    if (row.length > 30) {
-      let firstCommaIndex = row.indexOf(",");
-      let profileNbr = row.substring(firstCommaIndex + 1, row.indexOf('"', 12));
-      let emailAddress = row.substring(
-        row.indexOf('","') + 3,
-        row.indexOf('"', 30)
-      );
 
-      let line = `${profileNbr} \t ${emailAddress} \n`;
+    if (!row.includes('#')) {
+      if (row.length > 30) {
+        let firstCommaIndex = row.indexOf(",");
+        let profileNbr = row.substring(firstCommaIndex + 1, row.indexOf('"', 12));
+        let emailAddress = row.substring(
+          row.indexOf('","') + 3,
+          row.indexOf('"', 30)
+        );
 
-      textAreaResult.value += line;
+        let line = `${profileNbr} \t ${emailAddress} \n`;
+
+        textAreaResult.value += line;
+      }
     }
   });
   spanSrcCount.value = data.length - 1;
@@ -214,34 +170,19 @@ function emptyTextareas() {
   position: relative;
 }
 
-.textareas > div {
+.textareas>div {
   position: relative;
 }
 
-textarea {
-  height: 500px;
-  width: 500px;
-  font-family: arial;
-  resize: none;
-  border-radius: 8px;
-  border: none;
-  box-shadow: 0 0 8px #ccc;
-  background-color: #fefefe;
-  outline: none;
-  padding: 5px;
-}
 
 .container2 textarea {
   width: 300px;
 }
 
-textarea:hover {
-  box-shadow: 0 0 8px #aaa;
-}
-
 #result {
   cursor: not-allowed;
 }
+
 p {
   text-align: center;
   margin: 2rem;
@@ -249,6 +190,7 @@ p {
   font-size: 1.2rem;
   font-weight: 700;
 }
+
 button {
   margin: 1rem auto;
   display: flex;
@@ -266,22 +208,6 @@ button:hover {
   background: #74b0f5;
 }
 
-span {
-  position: absolute;
-  bottom: -15px;
-  left: 15px;
-  font-size: 12px;
-  color: #fff;
-  padding: 0 5px;
-}
-
-#src + span {
-  background-color: #af4343;
-}
-
-#result + span {
-  background-color: #33c138;
-}
 
 #refresh {
   width: 50%;
