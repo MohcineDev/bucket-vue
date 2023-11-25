@@ -3,7 +3,6 @@
     <section class="clix_data">
         <div class="sponsores">
             <div>
-
                 <input type="radio" value="w4" v-model="sponsores" id="w4" />
                 <label for="w4"> W4</label>
                 <input type="radio" value="sphere" v-model="sponsores" id="sphere" />
@@ -945,6 +944,7 @@ S T Y L E
      padding: 5px;
      transition: border .3s;
      box-sizing: border-box;
+    color:gray;
  }
 
  textarea:hover {

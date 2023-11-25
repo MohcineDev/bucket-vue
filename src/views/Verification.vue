@@ -6,49 +6,68 @@
 
     <div class="textareas">
       <div id="refresh" @click="emptyTextareas">Refresh</div>
-      <FirstTextarea :myContent="textAreaSrc" color='gray' @handleChange="e => (textAreaSrc = e.target.value)" ID="src"
-        @handleFocus="e => e.target.select()" placeHolder="past here / coller ici" :spanCount='spanSrcCount' />
+      <FirstTextarea
+        :myContent="textAreaSrc" color="gray" ID="src"
+        @handleChange="(e) => (textAreaSrc = e.target.value)"
+        placeHolder="past here / coller ici"
+        :spanCount="spanSrcCount"
+      />
 
-      <FirstTextarea ID="result" placeHolder="result" readonly="true" :myContent="textAreaResult"
-        :spanCount='spanResultCount' />
+      <FirstTextarea
+        ID="result"
+        placeHolder="result"
+        readonly="true"
+        :myContent="textAreaResult"
+        :spanCount="spanResultCount"
+        @handleFocus="(e) => e.target.select()"
+        cursor="not-allowed"
+      />
     </div>
 
     <button @click="generateProfiles">Submit</button>
   </div>
-
-
-
-
-  <section>
+  <section class="verified">
+    <label for="verified">
+      <input type="checkbox" name="" id="verified" /> verified</label
+    >
     <div class="container2">
-      <div class="textareas2">
-        <div>
-          <textarea id="src" :value="nbrs1" @input="(e) => (nbrs1 = e.target.value)" placeholder="allprofiles"></textarea>
-        </div>
-        <div>
-          <textarea id="result" :value="nbrs2" @input="(e) => (nbrs2 = e.target.value)"
-            placeholder="to subtract"></textarea>
-        </div>
-        <div>
-          <textarea id="result" :value="nbrs3" @input="(e) => (nbrs3 = e.target.value)" @focus="(e) => e.target.select()"
-            placeholder="result" readonly="true"></textarea>
-        </div>
+      <FilterTextarea
+        placeHolder="allprofiles"
+        ID="src"
+        :myValue="nbrs1"
+        @handleChange="(e) => (nbrs1 = e.target.value)"
+      />
+      <div>
+        <textarea
+          id="result"
+          :value="nbrs2"
+          @input="(e) => (nbrs2 = e.target.value)"
+          placeholder="to subtract"
+        ></textarea>
       </div>
-
-      <button @click="removeDuplicatedProfiles">Submit</button>
+      <div>
+        <textarea
+          id="result"
+          :value="nbrs3"
+          @input="(e) => (nbrs3 = e.target.value)"
+          @focus="(e) => e.target.select()"
+          placeholder="result"
+          readonly="true"
+        ></textarea>
+      </div>
     </div>
+
+    <button @click="removeDuplicatedProfiles">Submit</button>
   </section>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import FirstTextarea from "../components/FirstTextarea.vue";
+import FilterTextarea from "../components/FilterTextarea.vue";
 //@focus="(e) => (e.target.select(),  window.navigator.clipboard.writeText =  e.target.value)"
 // const props = defineProps(["myContent", "ID", "placeHolder"]);
-function doSomething(e) {
-  console.log(e)
 
-}
 const textAreaSrc = ref("");
 const textAreaResult = ref("");
 const textAreaSrc12 = ref(`"boite-not-work,2","wpwang2005@gmail.com"
@@ -93,11 +112,13 @@ function generateProfiles() {
   let data = textAreaSrc.value.split("\n");
 
   data.forEach((row) => {
-
-    if (!row.includes('#')) {
+    if (!row.includes("#")) {
       if (row.length > 30) {
         let firstCommaIndex = row.indexOf(",");
-        let profileNbr = row.substring(firstCommaIndex + 1, row.indexOf('"', 12));
+        let profileNbr = row.substring(
+          firstCommaIndex + 1,
+          row.indexOf('"', 12)
+        );
         let emailAddress = row.substring(
           row.indexOf('","') + 3,
           row.indexOf('"', 30)
@@ -113,37 +134,52 @@ function generateProfiles() {
   spanResultCount.value = textAreaResult.value.split("\n").length - 1;
 }
 
-function generateProfiles1() {
-  textAreaResult1.value = "";
+//get profile number from a row
+function getProfileNum(row) {
+  let profileNbr;
+  if (row[0] === '"' && row.length >= 30) {
+    let firstCommaIndex = row.indexOf(",");
+    let secondDoublecout = row.indexOf('"', 5);
 
-  let data = textAreaSrc1.value.split("\n");
-  data.forEach((row, i) => {
-    if (row[0] === '"' && row.length >= 30) {
-      let firstCommaIndex = row.indexOf(",");
-      let secondDoublecout = row.indexOf('"', 5);
-      let profileNbr = row.substring(firstCommaIndex + 1, secondDoublecout);
-      let emailAddress = row.substring(row.indexOf('","') + 3, row.length - 1);
+    profileNbr = row.substring(firstCommaIndex + 1, secondDoublecout);
+  } else return;
 
-      //     let line = `${profileNbr} \t ${emailAddress} \n`;
-      let line = `${profileNbr}\n`;
-
-      textAreaResult1.value += line;
-    }
-  });
+  return profileNbr;
 }
-const nbrs1 = ref("");
+
+const nbrs1 = ref(`boite-not-work,14
+"boite-not-work,18","mdsujnislam36662@gmail.com"
+boite-not-work,13
+boite-not-work,16
+boite-not-work,15
+"boite-not-work,21","mdsumon70998@gmail.com"
+boite-not-work,19
+boite-not-work,20
+"boite-not-work,24","mdsumongazim@gmail.com"
+"boite-not-work,23","md.sumon.biri.bd@gmail.com"
+boite-not-work,17
+boite-not-work,22
+boite-not-work,25
+boite-not-work,12
+boite-not-work,26`);
 const nbrs2 = ref("");
 const nbrs3 = ref("");
 
 function removeDuplicatedProfiles() {
   let nbrs1Profiles = nbrs1.value.split("\n");
   let nbrs2Profiles = nbrs2.value.split("\n");
+  let profiles1 = [];
+
+  nbrs1Profiles.forEach((item) => profiles1.push(getProfileNum(item)));
+
   let nonDuplicatedValues = "";
-  nbrs1Profiles.filter((item) =>
+  profiles1.forEach((item, index) =>
     nbrs2Profiles.includes(item)
-      ? (nonDuplicatedValues += item + "\n")
-      : console.log(item + " ")
+      ? (nonDuplicatedValues += nbrs1Profiles[index] + "\n")
+      : null
   );
+  console.log(nonDuplicatedValues);
+
   nbrs3.value = nonDuplicatedValues;
 }
 
@@ -170,17 +206,13 @@ function emptyTextareas() {
   position: relative;
 }
 
-.textareas>div {
+.textareas > div {
   position: relative;
 }
 
-
 .container2 textarea {
   width: 300px;
-}
-
-#result {
-  cursor: not-allowed;
+  height: 200px;
 }
 
 p {
@@ -192,7 +224,7 @@ p {
 }
 
 button {
-  margin: 1rem auto;
+  margin: 1.5rem auto;
   display: flex;
   padding: 15px 3rem;
   border: none;
@@ -208,7 +240,6 @@ button:hover {
   background: #74b0f5;
 }
 
-
 #refresh {
   width: 50%;
   height: 50%;
@@ -216,6 +247,12 @@ button:hover {
   cursor: pointer;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.verified .container2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
 }
 
 @media screen and (max-width: 1200px) {
