@@ -49,7 +49,7 @@ h1{
 }
 
 
-input{
+input, textarea{
   outline: none;
 }
 
