@@ -3,6 +3,9 @@
     <section class="clix_data">
         <div class="sponsores">
             <div>
+                <ClixSponsore value="Clix" ID="clix" Label="Clix" checked=""/>
+                <ClixSponsore value="w4" ID="w4" Label="w4"/>
+                <ClixSponsore value="sphere" ID="sphere" Label="sphere"/>
                 <input type="radio" value="w4" v-model="sponsores" id="w4" />
                 <label for="w4"> W4</label>
                 <input type="radio" value="sphere" v-model="sponsores" id="sphere" />
@@ -61,7 +64,6 @@
                         d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                 </svg>
             </div>
-           
         </div>
         <div>
             <p>deploy lead and revenue / mailer </p>
@@ -73,13 +75,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                 </svg>
-
             </div>
-            
-            <v-icon icon="$vuetify" size="large"></v-icon>
         </div>
     </section>
-
     <section class="tables_section">
         <table id="entityTable" title="entity leads and revenue ">
                 <thead>
@@ -147,8 +145,6 @@
         <li>replace mailer id by its name</li>
         <li>generate revenue by mailer</li>
     </ul>
-
-
     <section class="how_to">
         <h3>how to :</h3>
         <ul>
@@ -164,6 +160,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import ClixSponsore from '../components/ClixSponsore.vue'
 //minimum nbr of leads by deploy to display in the table
 const minNbLeads = ref(2)
 
@@ -721,9 +718,7 @@ cleanEntityTable()
 
 cleanEntityTable()
 // })
-
-
-
+ 
 
 ///display the ids with nbr leads specieifed in the input
 // displayIds.addEventListener('click', ()=>{
@@ -922,14 +917,7 @@ S T Y L E
      animation: resetBtn infinite 3s linear;
      cursor: pointer;
  }
-
- .sponsores input[type=radio] {
-     display: none;
- }
-
- input[type=radio]:checked+label {
-     border-color: var(--ui_blue);
- }
+ 
 
  textarea {
      width: 100%;
