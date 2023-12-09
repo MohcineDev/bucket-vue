@@ -23,10 +23,9 @@
         </div>
       </div>
       <router-link to="verification">Verification</router-link>
-      <router-link to="repo_sheets">Repo Sheets</router-link>
       <router-link to="clix">Clix</router-link>
       <router-link to="domains">Domains</router-link>
-      <div class="theme">
+      <div class="theme"  >
 
         <svg @click="addClass" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
           stroke="#198fe7" class="w-6 h-6 sun">
@@ -41,15 +40,29 @@
 
       </div>
     </div>
-
   </nav>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
+let notHasSchemaDark = false
+
+let a = ref(document)
+ 
 
 function addClass() {
   document.querySelector('body').classList.toggle("dark")
 }
+
+function checkIfHasSchema(){
+
+  window.matchMedia  && window.matchMedia('(prefers-color-scheme: dark)').matches ? 
+  hasSchemaDark = true : console.log('0000')
+
+}
+//checkIfHasSchema()
+
 </script>
 
 <style>
