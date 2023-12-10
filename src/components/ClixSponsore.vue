@@ -1,5 +1,5 @@
 <template>
-    <input type="radio" :value="value" :ID="ID" />
+    <input name="sponsore" type="radio"   :ID="ID" @change="e=>$emit('handleChange', e)"/>
     <label :for="ID">{{ Label }}</label>
 </template>
 
