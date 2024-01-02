@@ -6,3 +6,8 @@ import router from './router'
   
 
 createApp(App).use(router).mount('#app')
+
+
+export function sum(a, b) {
+    return a + b
+  }
