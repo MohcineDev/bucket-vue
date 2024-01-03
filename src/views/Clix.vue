@@ -123,7 +123,7 @@
                 </tbody>
             </table>
     </section>
-    <section class="tables" title="mailer / revenue for ECM4, ECM5">
+    <section class="tables" title="mailer / revenue for iissmm4, iissmm5">
         <table id="mailerRevenue">
             <thead>
                 <tr>
@@ -151,7 +151,7 @@
             <li>selct the manual or csv </li>
             <li>click process to start processing the data </li>
             <li>click generate to generate the entities</li>
-            <li>click entities by data to generate accessible entities to get deploys and mailers ids</li>
+            <li>click entities by data to generate accessible entities to get deploys and m  ids</li>
         </ul>
     </section>
 </template>
@@ -216,7 +216,7 @@ let disableEntitiesButton = ref(true)
 let disableEntitiesBydataBtn = ref(true)
 let displayIdsdisable = ref(true)
 let displayLeadsDisable = ref(true)
-// mailerRevenue.disabled  = true
+// mRevenue.disabled  = true
 
 let availabelLeadsNbrs = []
 // document.querySelector(".nbr_leads_input input").disabled = true
@@ -487,16 +487,16 @@ const cleanEntityTable = () => {
 ///get the entity name from its id
 const getEntityName = (id) => {
 
-    const allEntitiesName = ["CMH2", "CMH3", "CMH4", "CMH5", "CMH6", "CMH7", "CMH8", "CMH9",
-        "CMHF", "CMHJ", "CMHJ", "CMHW", "ECM2", "ECM3", "ECM4", "ECM5",
-        "ECM6", "EMI", "EMK1", "EMK2", "EMK3", "EMS1", "EMS2", "EMS3",
-        "EMS4", "EMS5", "EMT", "TSS2", "TSS3", "TSS4", "VMS2", "VMS3",
-        "VMS4", "VMS5", "EMD1", "LAM", "EMD4", "EMD3", "EMS", "EMD7",
-        "EMD8", "VMS1", "EMD9", "EMD10", "EMD", "EMD12", "ECM3", "EMD13",
-        "EMD14", "ECM2", "EMD15", "EMD16", "TSS", "EMK1", "EMK2", "EMS2",
-        "EMD17", "EMD18", "EMD19", "EMH", "EMD20", "EMI", "EMD21", "EMD22",
-        "EMD23", "VMS3", "TSS2", "EMS3", "CMH 1 A", "CMH 2 A", "CMH 1 B", "CMH 2 B",
-        "VMS2", "TSS3"]
+    const allEntitiesName = ["ssmch2", "ssmch3", "ssmch4", "ssmch5", "ssmch6", "ssmch7", "ssmch8", "ssmch9",
+        "ssmchF", "ssmchJ", "ssmchJ", "ssmchW", "iissmm2", "iissmm3", "iissmm4", "iissmm5",
+        "iissmm6", "EMI", "uummك1", "uummك2", "uummك3", "iimmسس1", "iimmسس2", "iimmسس3",
+        "iimmسس4", "iimmسس5", "EMT", "تتسس2", "تتسس3", "تتسس4", "vvvممc", "VMS3",
+        "VMS4", "VMS5", "iimmدد1", "LAM", "iimmدد4", "iimmدد3", "iimmسس", "iimmدد7",
+        "iimmدد8", "VMS1", "iimmدد9", "iimmدد10", "iimmدد", "iimmدد12", "iissmm3", "iimmدد13",
+        "iimmدد14", "iissmm2", "iimmدد15", "iimmدد16", "تتسس", "uummك1", "uummك2", "iimmسس2",
+        "iimmدد17", "iimmدد18", "iimmدد19", "EMH", "iimmدد20", "EMI", "iimmدد21", "iimmدد22",
+        "iimmدد23", "VMS3", "تتسس2", "iimmسس3", "ssmch 1 A", "ssmch 2 A", "ssmch 1 B", "ssmch 2 B",
+        "vvvممc", "تتسس3"]
 
     const allEntitiesID = [54, 55, 56, 57, 58, 59, 60, 62,
         64, 72, 73, 74, 22, 19, 41, 71,
@@ -515,10 +515,10 @@ const getEntityName = (id) => {
 const getMailerName = (id) => {
     const allMailersName = ["o.aitsl", "h.tuza", "z.hamm", "s.hdo", "a.oukk",
         "m.fai", "m.kholl", "z.boula", "i.azzou", "i.elba",
-        "m.aitalla", "y.choua", "a.tim", "baj", "a.jebou",
+        "m.ait", "y.choa", "a.tim", "baj", "a.jebou",
         'i.blid', 'o.houa', 't.saou', 'z.kbi', 'z.krhou',
-        'z.elgour', 'r.beylo', 'a.hadou', 'n.kerai', 'h.bnlam',
-        'a.elkarn', 'a.elhad', 'y.ouhann', 'y.bou', 'm.asemr',
+        'z.elgor', 'r.beylo', 'a.hadu', 'n.kerai', 'h.bnlam',
+        'a.elkan', 'a.elhad', 'y.ouhann', 'y.bou', 'm.asemr',
         'a.boqt', 'c.talho', 'm.agouzo']
 
     const allMailersID = [1945, 2175, 1626, 2351, 1954,
@@ -710,7 +710,7 @@ h2#offerTitle {
 
  .tables {
      display: flex;
-     align-items: flex-start;
+     align-itiimmسس: flex-start;
      justify-content: space-around;
      margin: 1rem 0
  }
@@ -718,7 +718,7 @@ h2#offerTitle {
     display: grid;
     grid-template-columns: repeat(3,1fr);
     gap: 1rem;
-    align-items: start;
+    align-itiimmسس: start;
  }
 
  table {
@@ -750,7 +750,7 @@ h2#offerTitle {
 
  .options {
      display: flex;
-     align-items: center;
+     align-itiimmسس: center;
      justify-content: center;
  }
 
@@ -786,7 +786,7 @@ h2#offerTitle {
  .nbr_leads,
  .min_leads {
      display: flex;
-     align-items: center;
+     align-itiimmسس: center;
      margin: 1rem 0;
      justify-content: center
  }
@@ -814,14 +814,14 @@ S T Y L E
 
  .sponsores {
      display: flex;
-     align-items: center;
+     align-itiimmسس: center;
      justify-content: space-between;
      padding: 5px;
  }
 
  .sponsores>div {
      display: flex;
-     align-items: center;
+     align-itiimmسس: center;
  }
 
  .sponsores label {
