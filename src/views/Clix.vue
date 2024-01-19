@@ -718,7 +718,7 @@ h2#offerTitle {
     display: grid;
     grid-template-columns: repeat(3,1fr);
     gap: 1rem;
-    align-itiimmسس: start;
+    align-items: start;
  }
 
  table {
